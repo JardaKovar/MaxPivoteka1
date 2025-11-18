@@ -1,0 +1,485 @@
+EMAIL SIMULATION
+To: jan.novak@test.cz
+Subject: Potvrzení rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 12:55:23
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        
+    
+    
+        
+            MAX PIVOTÉKA
+            Potvrzení rezervace půjčovny
+        
+        
+            Vážený/á Jan Novák,
+            
+            Děkujeme za Vaši rezervaci půjčovny. Vaše žádost byla úspěšně odeslána a bude zpracována v nejbližší době.
+            
+            
+                Detaily rezervace:
+                Číslo rezervace: #3
+                Jméno: Jan Novák
+                Email: jan.novak@test.cz
+                Telefon: +420123456789
+                Předmět půjčení: PÍPY - PŘENOSNÉ CHLAZENÍ
+                Období půjčení: vikend
+                Datum od: 03.08.2025
+                Datum do: 05.08.2025
+                Dodatečné informace: Test reservation
+            
+            
+            Vaše rezervace má aktuálně status ČEKÁ NA POTVRZENÍ. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.
+            
+            V případě jakýchkoli dotazů nás neváhejte kontaktovat:
+            📞 +420 605 085 150 nebo +420 603 239 703
+            📧 odmax@seznam.cz
+        
+        
+            MAX PIVOTÉKA
+            Červené Vršky 2086, Benešov
+            Tento email byl odeslán automaticky, prosím neodpovídejte na něj.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Nová rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 12:55:23
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        
+    
+    
+        
+            Nová rezervace půjčovny
+        
+        
+            Byla přijata nová rezervace půjčovny:
+            
+            
+                Číslo rezervace: #3
+                Jméno: Jan Novák
+                Email: jan.novak@test.cz
+                Telefon: +420123456789
+                Předmět půjčení: PÍPY - PŘENOSNÉ CHLAZENÍ
+                Období půjčení: vikend
+                Datum od: 03.08.2025
+                Datum do: 05.08.2025
+                Dodatečné informace: Test reservation
+                Čas podání: 31.07.2025 12:55:23
+            
+            
+            Přihlaste se do administrace pro zpracování rezervace.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Potvrzení rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 12:56:40
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        
+    
+    
+        
+            MAX PIVOTÉKA
+            Potvrzení rezervace půjčovny
+        
+        
+            Vážený/á Sebastian Pookrny,
+            
+            Děkujeme za Vaši rezervaci půjčovny. Vaše žádost byla úspěšně odeslána a bude zpracována v nejbližší době.
+            
+            
+                Detaily rezervace:
+                Číslo rezervace: #4
+                Jméno: Sebastian Pookrny
+                Email: sebastianpokorny@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: PÍPY - PŘENOSNÉ CHLAZENÍ
+                Období půjčení: vikend
+                Datum od: 31.07.2025
+                Datum do: 07.08.2025
+                Dodatečné informace: asdsadsa
+            
+            
+            Vaše rezervace má aktuálně status ČEKÁ NA POTVRZENÍ. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.
+            
+            V případě jakýchkoli dotazů nás neváhejte kontaktovat:
+            📞 +420 605 085 150 nebo +420 603 239 703
+            📧 odmax@seznam.cz
+        
+        
+            MAX PIVOTÉKA
+            Červené Vršky 2086, Benešov
+            Tento email byl odeslán automaticky, prosím neodpovídejte na něj.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Nová rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 12:56:40
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        
+    
+    
+        
+            Nová rezervace půjčovny
+        
+        
+            Byla přijata nová rezervace půjčovny:
+            
+            
+                Číslo rezervace: #4
+                Jméno: Sebastian Pookrny
+                Email: sebastianpokorny@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: PÍPY - PŘENOSNÉ CHLAZENÍ
+                Období půjčení: vikend
+                Datum od: 31.07.2025
+                Datum do: 07.08.2025
+                Dodatečné informace: asdsadsa
+                Čas podání: 31.07.2025 12:56:40
+            
+            
+            Přihlaste se do administrace pro zpracování rezervace.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny1@seznam.cz
+Subject: Potvrzení rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 13:16:36
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        
+    
+    
+        
+            MAX PIVOTÉKA
+            Potvrzení rezervace půjčovny
+        
+        
+            Vážený/á Honza Kostka,
+            
+            Děkujeme za Vaši rezervaci půjčovny. Vaše žádost byla úspěšně odeslána a bude zpracována v nejbližší době.
+            
+            
+                Detaily rezervace:
+                Číslo rezervace: #5
+                Jméno: Honza Kostka
+                Email: sebastianpokorny1@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: den
+                Datum od: 31.07.2025
+                Datum do: 01.08.2025
+                Dodatečné informace: ahooj
+            
+            
+            Vaše rezervace má aktuálně status ČEKÁ NA POTVRZENÍ. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.
+            
+            V případě jakýchkoli dotazů nás neváhejte kontaktovat:
+            📞 +420 605 085 150 nebo +420 603 239 703
+            📧 odmax@seznam.cz
+        
+        
+            MAX PIVOTÉKA
+            Červené Vršky 2086, Benešov
+            Tento email byl odeslán automaticky, prosím neodpovídejte na něj.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Nová rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 13:16:36
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        
+    
+    
+        
+            Nová rezervace půjčovny
+        
+        
+            Byla přijata nová rezervace půjčovny:
+            
+            
+                Číslo rezervace: #5
+                Jméno: Honza Kostka
+                Email: sebastianpokorny1@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: den
+                Datum od: 31.07.2025
+                Datum do: 01.08.2025
+                Dodatečné informace: ahooj
+                Čas podání: 31.07.2025 13:16:36
+            
+            
+            Přihlaste se do administrace pro zpracování rezervace.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Potvrzení rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 13:33:36
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        
+    
+    
+        
+            MAX PIVOTÉKA
+            Potvrzení rezervace půjčovny
+        
+        
+            Vážený/á Honza AGSA,
+            
+            Děkujeme za Vaši rezervaci půjčovny. Vaše žádost byla úspěšně odeslána a bude zpracována v nejbližší době.
+            
+            
+                Detaily rezervace:
+                Číslo rezervace: #6
+                Jméno: Honza AGSA
+                Email: sebastianpokorny@seznam.cz
+                
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: den
+                Datum od: 31.07.2025
+                Datum do: 01.08.2025
+                Dodatečné informace: test
+            
+            
+            Vaše rezervace má aktuálně status ČEKÁ NA POTVRZENÍ. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.
+            
+            V případě jakýchkoli dotazů nás neváhejte kontaktovat:
+            📞 +420 605 085 150 nebo +420 603 239 703
+            📧 odmax@seznam.cz
+        
+        
+            MAX PIVOTÉKA
+            Červené Vršky 2086, Benešov
+            Tento email byl odeslán automaticky, prosím neodpovídejte na něj.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Nová rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 13:33:36
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        
+    
+    
+        
+            Nová rezervace půjčovny
+        
+        
+            Byla přijata nová rezervace půjčovny:
+            
+            
+                Číslo rezervace: #6
+                Jméno: Honza AGSA
+                Email: sebastianpokorny@seznam.cz
+                
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: den
+                Datum od: 31.07.2025
+                Datum do: 01.08.2025
+                Dodatečné informace: test
+                Čas podání: 31.07.2025 13:33:36
+            
+            
+            Přihlaste se do administrace pro zpracování rezervace.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Potvrzení rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 17:48:41
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+            .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        
+    
+    
+        
+            MAX PIVOTÉKA
+            Potvrzení rezervace půjčovny
+        
+        
+            Vážený/á GASG Pookrny,
+            
+            Děkujeme za Vaši rezervaci půjčovny. Vaše žádost byla úspěšně odeslána a bude zpracována v nejbližší době.
+            
+            
+                Detaily rezervace:
+                Číslo rezervace: #7
+                Jméno: GASG Pookrny
+                Email: sebastianpokorny@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: vikend
+                Datum od: 31.07.2025
+                Datum do: 02.08.2025
+                Dodatečné informace: test
+            
+            
+            Vaše rezervace má aktuálně status ČEKÁ NA POTVRZENÍ. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.
+            
+            V případě jakýchkoli dotazů nás neváhejte kontaktovat:
+            📞 +420 605 085 150 nebo +420 603 239 703
+            📧 odmax@seznam.cz
+        
+        
+            MAX PIVOTÉKA
+            Červené Vršky 2086, Benešov
+            Tento email byl odeslán automaticky, prosím neodpovídejte na něj.
+        
+    
+    
+--------------------------------------------------
+
+EMAIL SIMULATION
+To: sebastianpokorny@seznam.cz
+Subject: Nová rezervace půjčovny - MAX PIVOTÉKA
+From: MAX PIVOTÉKA
+Time: 2025-07-31 17:48:41
+Message: 
+    
+    
+        
+        
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .details { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        
+    
+    
+        
+            Nová rezervace půjčovny
+        
+        
+            Byla přijata nová rezervace půjčovny:
+            
+            
+                Číslo rezervace: #7
+                Jméno: GASG Pookrny
+                Email: sebastianpokorny@seznam.cz
+                Telefon: +420703334166
+                Předmět půjčení: GRILY - PLYNOVÝ GRIL
+                Období půjčení: vikend
+                Datum od: 31.07.2025
+                Datum do: 02.08.2025
+                Dodatečné informace: test
+                Čas podání: 31.07.2025 17:48:41
+            
+            
+            Přihlaste se do administrace pro zpracování rezervace.
+        
+    
+    
+--------------------------------------------------
+

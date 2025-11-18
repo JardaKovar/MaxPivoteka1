@@ -1,0 +1,57 @@
+[
+    {
+        "number": "1",
+        "desc1": "GRILY",
+        "image": "grill.png",
+        "desc2": "PLYNOV\u00dd GRIL",
+        "deposit": "2000",
+        "day": "200",
+        "weekend": "400",
+        "week": "1000",
+        "month": "2500"
+    },
+    {
+        "number": "2",
+        "desc1": "P\u00cdPY",
+        "image": "p\u00edpa.png",
+        "desc2": "P\u0158ENOSN\u00c9 CHLAZEN\u00cd",
+        "deposit": "3000",
+        "day": "300",
+        "weekend": "500",
+        "week": "1200",
+        "month": "3000"
+    },
+    {
+        "number": "3",
+        "desc1": "BOMBA",
+        "image": "bomba.png",
+        "desc2": "PIVN\u00cd BOMBA",
+        "deposit": "1500",
+        "day": "150",
+        "weekend": "300",
+        "week": "800",
+        "month": "2000"
+    },
+    {
+        "number": "4",
+        "desc1": "NUTCASE",
+        "image": "pivset (2).png",
+        "desc2": "PIVN\u00cd SET",
+        "deposit": "1000",
+        "day": "100",
+        "weekend": "200",
+        "week": "500",
+        "month": "1200"
+    },
+    {
+        "number": "5",
+        "desc1": "Jarda",
+        "image": "bomba.png",
+        "desc2": "test",
+        "deposit": "500",
+        "day": "50",
+        "weekend": "100",
+        "week": "250",
+        "month": "600"
+    }
+]

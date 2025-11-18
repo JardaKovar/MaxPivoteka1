@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.21.2",
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "name": "max-pivoteka",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "version": "1.0.0"
+}

@@ -1,0 +1,25 @@
+Received POST data: Array
+(
+    [0] => Array
+        (
+            [date] => 24.12.
+            [title] => TEST
+            [description] => Přijďte ochutnat naše sváteční pivní speciály. V nabídce budou tmavé i světlé vánoční speciály od vybraných pivovarů.
+        )
+
+    [1] => Array
+        (
+            [date] => 31.12.
+            [title] => agfasg
+            [description] => Speciální silvestrovská nabídka piv. Připravili jsme pro vás výběr toho nejlepšího z našeho sortimentu.
+        )
+
+    [2] => Array
+        (
+            [date] => 15.1.
+            [title] => Degustace řemeslných piv
+            [description] => Řízená degustace vybraných řemeslných piv z českých minipivovarů. Rezervace míst předem nutná.
+        )
+
+)
+

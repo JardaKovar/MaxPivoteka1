@@ -1,0 +1,101 @@
+[
+    {
+        "number": "1",
+        "desc1": "GRILY",
+        "image": "grill.png",
+        "desc2": "PLYNOV\u00dd GRIL",
+        "deposit": "2000",
+        "day": "200",
+        "weekend": "400",
+        "week": "1000",
+        "month": "2500"
+    },
+    {
+        "number": "2",
+        "desc1": "P\u00cdPA",
+        "image": "p\u00edpa.png",
+        "desc2": "1 KOHOUT",
+        "deposit": "25030",
+        "day": "250",
+        "weekend": "400",
+        "week": "1000",
+        "month": "2500"
+    },
+    {
+        "number": "3",
+        "desc1": "P\u00cdPA",
+        "image": "p\u00edpa.png",
+        "desc2": "2 KOHOUT",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "4",
+        "desc1": "Vychlazen\u00fd sud",
+        "image": "Pivn\u00ed sud.png",
+        "desc2": "dle v\u00fdb\u011bru",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "5",
+        "desc1": "",
+        "image": "",
+        "desc2": "",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "6",
+        "desc1": "",
+        "image": "",
+        "desc2": "",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "7",
+        "desc1": "",
+        "image": "",
+        "desc2": "",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "",
+        "desc1": "",
+        "image": "",
+        "desc2": "",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    },
+    {
+        "number": "",
+        "desc1": "",
+        "image": "",
+        "desc2": "",
+        "deposit": "",
+        "day": "",
+        "weekend": "",
+        "week": "",
+        "month": ""
+    }
+]

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Cache Test - Modal Content</title>
+    <link rel="stylesheet" href="css/dashboard.css?v=<?php echo time(); ?>">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-button {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CSS Cache Test for Modal Content</h1>
+        
+        <div class="info-box">
+            <h3>Test Results:</h3>
+            <p><strong>CSS File URL:</strong> <span id="css-url"></span></p>
+            <p><strong>Cache Busting:</strong> <span id="cache-status"></span></p>
+            <p><strong>Modal Styles Loaded:</strong> <span id="modal-status"></span></p>
+        </div>
+
+        <button class="test-button" onclick="testModal()">Test Modal</button>
+        <button class="test-button" onclick="checkCSSCache()">Check CSS Cache</button>
+        <button class="test-button" onclick="clearBrowserCache()">Clear Browser Cache</button>
+
+        <!-- Test Modal -->
+        <div id="test-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Test Modal</h2>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="padding: 20px;">
+                        <h3>Modal Content Test</h3>
+                        <p>If you can see this modal with proper styling (rounded corners, shadows, etc.), then the CSS cache-busting is working correctly!</p>
+                        <p><strong>Expected styles:</strong></p>
+                        <ul>
+                            <li>White background</li>
+                            <li>Rounded corners (border-radius: var(--radius-2xl))</li>
+                            <li>Box shadow</li>
+                            <li>Max-width: 800px</li>
+                            <li>Centered positioning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test modal functionality
+        function testModal() {
+            const modal = document.getElementById('test-modal');
+            modal.style.display = 'flex';
+            checkModalStyles();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('test-modal');
+            modal.style.display = 'none';
+        }
+
+        // Check CSS cache busting
+        function checkCSSCache() {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            const cssUrl = document.getElementById('css-url');
+            const cacheStatus = document.getElementById('cache-status');
+            
+            let hasCacheBusting = false;
+            let cssHref = '';
+            
+            links.forEach(link => {
+                if (link.href.includes('dashboard.css')) {
+                    cssHref = link.href;
+                    if (link.href.includes('?v=') || link.href.includes('&v=')) {
+                        hasCacheBusting = true;
+                    }
+                }
+            });
+            
+            cssUrl.textContent = cssHref;
+            cacheStatus.textContent = hasCacheBusting ? '✅ Active' : '❌ Not Active';
+            cacheStatus.style.color = hasCacheBusting ? 'green' : 'red';
+        }
+
+        // Check modal styles
+        function checkModalStyles() {
+            const modalContent = document.querySelector('.modal-content');
+            const modalStatus = document.getElementById('modal-status');
+            
+            if (modalContent) {
+                const styles = window.getComputedStyle(modalContent);
+                const hasRoundedCorners = styles.borderRadius !== '0px';
+                const hasBoxShadow = styles.boxShadow !== 'none';
+                const hasWhiteBackground = styles.backgroundColor === 'rgb(255, 255, 255)' || styles.backgroundColor === 'white';
+                
+                const allStylesPresent = hasRoundedCorners && hasBoxShadow && hasWhiteBackground;
+                modalStatus.textContent = allStylesPresent ? '✅ Loaded Correctly' : '❌ Styles Missing';
+                modalStatus.style.color = allStylesPresent ? 'green' : 'red';
+            } else {
+                modalStatus.textContent = '❌ Modal Content Not Found';
+                modalStatus.style.color = 'red';
+            }
+        }
+
+        // Clear browser cache instruction
+        function clearBrowserCache() {
+            alert('To clear browser cache:\n\n' +
+                  '1. Press Ctrl+Shift+R (hard refresh)\n' +
+                  '2. Or press F12 → Network tab → check "Disable cache"\n' +
+                  '3. Or press Ctrl+F5\n' +
+                  '4. In Chrome: Ctrl+Shift+Delete → Clear browsing data');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('test-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Run initial checks
+        window.onload = function() {
+            checkCSSCache();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - MAX PIVOTÉKA</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <img src="images/logo2.png" alt="MAX PIVOTÉKA" class="loading-logo">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-left">
+            <h1>DashboardMax - Edit Website Content</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="user-details">
+                    <span class="username" id="current-username">MaxP</span>
+                    <span class="login-time" id="login-time">Logged in: --:--</span>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-secondary" onclick="toggleActivityLog()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10,9 9,9 8,9"></polyline>
+                        </svg>
+                        Activity Log
+                    </button>
+                    <a href="index.php" target="_blank" class="btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15,3 21,3 21,9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        View Website
+                    </a>
+                    <a href="login.php?logout=1" class="btn-logout">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16,17 21,12 16,7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Activity Log Modal -->
+    <div id="activity-log-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Activity Log & Change History</h2>
+                <button class="modal-close" onclick="toggleActivityLog()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="log-tabs">
+                    <button class="tab-btn active" onclick="showLogTab('recent')">Recent Activities</button>
+                    <button class="tab-btn" onclick="showLogTab('sessions')">Login Sessions</button>
+                    <button class="tab-btn" onclick="showLogTab('changes')">Content Changes</button>
+                </div>
+                
+                <div id="recent-tab" class="tab-content active">
+                    <div class="log-section">
+                        <h3>Recent Activities</h3>
+                        <div id="recent-activities" class="activity-list">
+                            <!-- Activities will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sessions-tab" class="tab-content">
+                    <div class="log-section">
+                        <h3>Login Sessions</h3>
+                        <div id="login-sessions" class="activity-list">
+                            <!-- Sessions will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="changes-tab" class="tab-content">
+                    <div class="log-section">
+                        <h3>Content Changes</h3>
+                        <div id="content-changes" class="activity-list">
+                            <!-- Changes will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section id="edit-tap-list">
+            <h2>Edit "Právě na čepu" Tap List</h2>
+            <form id="tap-form" method="post" action="save_taplist.php" novalidate>
+                <table border="1" cellpadding="5" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>NUMBER</th>
+                            <th>BREWERY</th>
+                            <th>BEER</th>
+                            <th>ALC. %</th>
+                            <th>EPM</th>
+                            <th>IBU</th>
+                            <th>EBC</th>
+                            <th>0,5L (KČ)</th>
+                            <th>0,3L (KČ)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" name="taplist[0][brewery]"></td>
+                            <td><input type="text" name="taplist[0][beer]"></td>
+                            <td><input type="text" name="taplist[0][alc]"></td>
+                            <td><input type="text" name="taplist[0][epm]"></td>
+                            <td><input type="text" name="taplist[0][ibu]"></td>
+                            <td><input type="text" name="taplist[0][ebc]"></td>
+                            <td><input type="text" name="taplist[0][price_05l]"></td>
+                            <td><input type="text" name="taplist[0][price_03l]"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><input type="text" name="taplist[1][brewery]"></td>
+                            <td><input type="text" name="taplist[1][beer]"></td>
+                            <td><input type="text" name="taplist[1][alc]"></td>
+                            <td><input type="text" name="taplist[1][epm]"></td>
+                            <td><input type="text" name="taplist[1][ibu]"></td>
+                            <td><input type="text" name="taplist[1][ebc]"></td>
+                            <td><input type="text" name="taplist[1][price_05l]"></td>
+                            <td><input type="text" name="taplist[1][price_03l]"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><input type="text" name="taplist[2][brewery]"></td>
+                            <td><input type="text" name="taplist[2][beer]"></td>
+                            <td><input type="text" name="taplist[2][alc]"></td>
+                            <td><input type="text" name="taplist[2][epm]"></td>
+                            <td><input type="text" name="taplist[2][ibu]"></td>
+                            <td><input type="text" name="taplist[2][ebc]"></td>
+                            <td><input type="text" name="taplist[2][price_05l]"></td>
+                            <td><input type="text" name="taplist[2][price_03l]"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><input type="text" name="taplist[3][brewery]"></td>
+                            <td><input type="text" name="taplist[3][beer]"></td>
+                            <td><input type="text" name="taplist[3][alc]"></td>
+                            <td><input type="text" name="taplist[3][epm]"></td>
+                            <td><input type="text" name="taplist[3][ibu]"></td>
+                            <td><input type="text" name="taplist[3][ebc]"></td>
+                            <td><input type="text" name="taplist[3][price_05l]"></td>
+                            <td><input type="text" name="taplist[3][price_03l]"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><input type="text" name="taplist[4][brewery]"></td>
+                            <td><input type="text" name="taplist[4][beer]"></td>
+                            <td><input type="text" name="taplist[4][alc]"></td>
+                            <td><input type="text" name="taplist[4][epm]"></td>
+                            <td><input type="text" name="taplist[4][ibu]"></td>
+                            <td><input type="text" name="taplist[4][ebc]"></td>
+                            <td><input type="text" name="taplist[4][price_05l]"></td>
+                            <td><input type="text" name="taplist[4][price_03l]"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit">SAVE TAP LIST</button>
+            </form>
+        </section>
+
+        <section id="edit-rental-list">
+            <h2>Edit "Půjčovna" Rental List</h2>
+            <form id="rental-form" method="post" action="save_rentallist.php" enctype="multipart/form-data" novalidate>
+                <table border="1" cellpadding="5" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>NUMBER</th>
+                            <th>DESCRIPTION 1</th>
+                            <th>IMAGE</th>
+                            <th>DESCRIPTION 2</th>
+                            <th>DEPOSIT</th>
+                            <th>DAY</th>
+                            <th>WEEKEND</th>
+                            <th>WEEK</th>
+                            <th>MONTH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" name="rentallist[0][desc1]" placeholder="Tvoje máma"></td>
+                            <td></td>
+                            <td><input type="text" name="rentallist[0][desc2]"></td>
+                            <td><input type="text" name="rentallist[0][deposit]"></td>
+                            <td><input type="text" name="rentallist[0][day]"></td>
+                            <td><input type="text" name="rentallist[0][weekend]"></td>
+                            <td><input type="text" name="rentallist[0][week]"></td>
+                            <td><input type="text" name="rentallist[0][month]"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><input type="text" name="rentallist[1][desc1]" placeholder="Tvoje máma"></td>
+                            <td></td>
+                            <td><input type="text" name="rentallist[1][desc2]"></td>
+                            <td><input type="text" name="rentallist[1][deposit]"></td>
+                            <td><input type="text" name="rentallist[1][day]"></td>
+                            <td><input type="text" name="rentallist[1][weekend]"></td>
+                            <td><input type="text" name="rentallist[1][week]"></td>
+                            <td><input type="text" name="rentallist[1][month]"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><input type="text" name="rentallist[2][desc1]"></td>
+                            <td></td>
+                            <td><input type="text" name="rentallist[2][desc2]"></td>
+                            <td><input type="text" name="rentallist[2][deposit]"></td>
+                            <td><input type="text" name="rentallist[2][day]"></td>
+                            <td><input type="text" name="rentallist[2][weekend]"></td>
+                            <td><input type="text" name="rentallist[2][week]"></td>
+                            <td><input type="text" name="rentallist[2][month]"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><input type="text" name="rentallist[3][desc1]"></td>
+                            <td></td>
+                            <td><input type="text" name="rentallist[3][desc2]"></td>
+                            <td><input type="text" name="rentallist[3][deposit]"></td>
+                            <td><input type="text" name="rentallist[3][day]"></td>
+                            <td><input type="text" name="rentallist[3][weekend]"></td>
+                            <td><input type="text" name="rentallist[3][week]"></td>
+                            <td><input type="text" name="rentallist[3][month]"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><input type="text" name="rentallist[4][desc1]"></td>
+                            <td></td>
+                            <td><input type="text" name="rentallist[4][desc2]"></td>
+                            <td><input type="text" name="rentallist[4][deposit]"></td>
+                            <td><input type="text" name="rentallist[4][day]"></td>
+                            <td><input type="text" name="rentallist[4][weekend]"></td>
+                            <td><input type="text" name="rentallist[4][week]"></td>
+                            <td><input type="text" name="rentallist[4][month]"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit">SAVE RENTAL LIST</button>
+            </form>
+        </section>
+
+        <section id="gallery-management">
+            <h2>Gallery Management</h2>
+            <form id="gallery-upload-form" method="post" action="gallery_upload.php" enctype="multipart/form-data" novalidate>
+                <label for="gallery-files">Upload Images (multiple):</label><br />
+                <input type="file" id="gallery-files" name="gallery_files[]" multiple accept="image/*" /><br />
+                <button type="submit">Upload</button>
+            </form>
+            <form id="gallery-delete-form" method="post" action="gallery_delete.php" novalidate>
+                <h3>Delete Images</h3>
+                <div class="gallery-images">
+                    <!-- Gallery images will be populated dynamically -->
+                </div>
+                <button type="submit">Delete Selected</button>
+            </form>
+        </section>
+
+        <section id="edit-events">
+            <h2>Edit "Akce" Events</h2>
+            <form id="events-form" method="post" action="save_events.php" novalidate>
+                <div class="events-grid">
+                    <div class="event-edit-card">
+                        <h3>Event 1</h3>
+                        <label>Date:</label>
+                        <input type="text" name="events[0][date]" placeholder="24.12." maxlength="10">
+                        
+                        <label>Title:</label>
+                        <input type="text" name="events[0][title]" placeholder="Event Title" maxlength="100">
+                        
+                        <label>Description:</label>
+                        <textarea name="events[0][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
+                    </div>
+                    
+                    <div class="event-edit-card">
+                        <h3>Event 2</h3>
+                        <label>Date:</label>
+                        <input type="text" name="events[1][date]" placeholder="31.12." maxlength="10">
+                        
+                        <label>Title:</label>
+                        <input type="text" name="events[1][title]" placeholder="Event Title" maxlength="100">
+                        
+                        <label>Description:</label>
+                        <textarea name="events[1][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
+                    </div>
+                    
+                    <div class="event-edit-card">
+                        <h3>Event 3</h3>
+                        <label>Date:</label>
+                        <input type="text" name="events[2][date]" placeholder="15.1." maxlength="10">
+                        
+                        <label>Title:</label>
+                        <input type="text" name="events[2][title]" placeholder="Event Title" maxlength="100">
+                        
+                        <label>Description:</label>
+                        <textarea name="events[2][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
+                    </div>
+                </div>
+                <button type="submit">SAVE EVENTS</button>
+            </form>
+        </section>
+
+        <section id="cenik-management">
+            <h2>Ceník Management</h2>
+            <form id="cenik-upload-form" method="post" action="cenik_upload.php" enctype="multipart/form-data" novalidate>
+                <label for="cenik-file">Upload Image:</label><br />
+                <input type="file" id="cenik-file" name="cenik_file" accept="image/*" /><br />
+                <button type="submit">Upload</button>
+            </form>
+            <form id="cenik-delete-form" method="post" action="cenik_delete.php" novalidate>
+                <h3>Delete Images</h3>
+                <div class="cenik-images">
+                    <!-- Ceník images will be populated dynamically -->
+                </div>
+                <button type="submit">Delete Selected</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Activity Log Modal Functions
+        function toggleActivityLog() {
+            const modal = document.getElementById('activity-log-modal');
+            if (modal.classList.contains('show')) {
+                modal.classList.remove('show');
+            } else {
+                modal.classList.add('show');
+                loadActivityLogs('recent'); // Load recent activities by default
+            }
+        }
+
+        function showLogTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Load appropriate logs
+            loadActivityLogs(tabName);
+        }
+
+        async function loadActivityLogs(type) {
+            try {
+                const response = await fetch(`get_activity_logs.php?type=${type}&limit=20`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayLogs(data.logs, type);
+                } else {
+                    console.error('Failed to load logs:', data.error);
+                }
+            } catch (error) {
+                console.error('Error loading logs:', error);
+                displayFallbackLogs(type);
+            }
+        }
+
+        function displayLogs(logs, type) {
+            let containerId;
+            switch (type) {
+                case 'sessions':
+                    containerId = 'login-sessions';
+                    break;
+                case 'changes':
+                    containerId = 'content-changes';
+                    break;
+                default:
+                    containerId = 'recent-activities';
+            }
+            
+            const container = document.getElementById(containerId);
+            
+            if (logs.length === 0) {
+                container.innerHTML = '<div class="activity-item"><div class="activity-details"><div class="activity-action">No activities found</div></div></div>';
+                return;
+            }
+            
+            container.innerHTML = logs.map(log => {
+                const date = new Date(log.timestamp);
+                const timeStr = date.toLocaleString();
+                
+                let iconClass = 'activity-icon';
+                let itemClass = 'activity-item';
+                let iconText = 'A';
+                
+                if (log.action && log.action.toLowerCase().includes('login')) {
+                    iconClass += ' login';
+                    itemClass += ' login';
+                    iconText = '→';
+                } else if (log.action && log.action.toLowerCase().includes('logout')) {
+                    iconClass += ' logout';
+                    itemClass += ' logout';
+                    iconText = '←';
+                } else {
+                    iconClass += ' change';
+                    itemClass += ' change';
+                    iconText = '✎';
+                }
+                
+                return `
+                    <div class="${itemClass}">
+                        <div class="${iconClass}">${iconText}</div>
+                        <div class="activity-details">
+                            <div class="activity-action">${log.action}</div>
+                            ${log.details ? `<div class="activity-description">${log.details}</div>` : ''}
+                            ${log.section ? `<div class="activity-description">Section: ${log.section}</div>` : ''}
+                            <div class="activity-meta">
+                                <div class="activity-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12,6 12,12 16,14"></polyline>
+                                    </svg>
+                                    ${timeStr}
+                                </div>
+                                <div class="activity-ip">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                    </svg>
+                                    ${log.ip_address || 'unknown'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayFallbackLogs(type) {
+            // Fallback sample data when database is not available
+            const sampleLogs = [
+                {
+                    action: 'Logged in',
+                    details: 'Successful login to dashboard',
+                    section: 'Authentication',
+                    timestamp: new Date().toISOString(),
+                    ip_address: '127.0.0.1'
+                },
+                {
+                    action: 'Updated tap list',
+                    details: 'Modified beer #1: KAMENICE NAD LIPOU',
+                    section: 'Tap List',
+                    timestamp: new Date(Date.now() - 3600000).toISOString(),
+                    ip_address: '127.0.0.1'
+                }
+            ];
+            
+            displayLogs(sampleLogs, type);
+        }
+
+        // Update login time display
+        function updateLoginTime() {
+            const loginTimeElement = document.getElementById('login-time');
+            if (loginTimeElement) {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('cs-CZ', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                loginTimeElement.textContent = `Logged in: ${timeStr}`;
+            }
+        }
+
+        // Show loading screen only during upload, delete, and save operations
+        function showLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('show');
+            }
+        }
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.classList.remove('show');
+                    loadingScreen.style.opacity = '1';
+                }, 500);
+            }
+        }
+
+        // Remove any form validation popups
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update login time on page load
+            updateLoginTime();
+            
+            // Close modal when clicking outside
+            document.getElementById('activity-log-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    toggleActivityLog();
+                }
+            });
+            
+            // Disable HTML5 form validation for all forms
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.setAttribute('novalidate', 'true');
+                
+                // Remove required attributes from all inputs
+                const inputs = form.querySelectorAll('input[required]');
+                inputs.forEach(input => {
+                    input.removeAttribute('required');
+                });
+
+                // Add loading screen functionality to forms
+                form.addEventListener('submit', function(e) {
+                    // Show loading screen for upload, delete, and save operations
+                    showLoadingScreen();
+                });
+            });
+            
+            // Override any validation messages
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('invalid', function(e) {
+                    e.preventDefault();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

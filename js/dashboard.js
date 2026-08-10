@@ -1,11 +1,10 @@
-// Dashboard data loading functionality
+
 document.addEventListener('DOMContentLoaded', function() {
     loadDashboardData();
 });
 
 async function loadDashboardData() {
-    try {
-        // Load tap list data
+    try {
         const tapResponse = await fetch('data/taplist.json');
         if (tapResponse.ok) {
             const tapData = await tapResponse.json();
@@ -15,8 +14,7 @@ async function loadDashboardData() {
         console.log('Could not load tap data');
     }
 
-    try {
-        // Load rental list data
+    try {
         const rentalResponse = await fetch('data/rentallist.json');
         if (rentalResponse.ok) {
             const rentalData = await rentalResponse.json();
@@ -26,8 +24,7 @@ async function loadDashboardData() {
         console.log('Could not load rental data');
     }
 
-    try {
-        // Load events data
+    try {
         const eventsResponse = await fetch('data/events.json');
         if (eventsResponse.ok) {
             const eventsData = await eventsResponse.json();
@@ -35,9 +32,7 @@ async function loadDashboardData() {
         }
     } catch (error) {
         console.log('Could not load events data');
-    }
-
-    // Load gallery images
+    }
     loadGalleryImages();
     loadCenikImages();
 }
@@ -102,12 +97,8 @@ function populateEventsForm(eventsData) {
     });
 }
 
-function loadGalleryImages() {
-    // This would load existing gallery images for management
-    // Implementation depends on how gallery images are stored
+function loadGalleryImages() {
 }
 
-function loadCenikImages() {
-    // This would load existing ceník images for management
-    // Implementation depends on how ceník images are stored
+function loadCenikImages() {
 }

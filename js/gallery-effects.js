@@ -1,4 +1,4 @@
-// Enhanced Gallery functionality with navigation arrows and zoom features
+
 (function() {
     'use strict';
     
@@ -20,9 +20,7 @@
     let isNavigating = false; // Prevent rapid navigation
 
     function initGallery() {
-        console.log('Initializing gallery...');
-        
-        // Get gallery elements
+        console.log('Initializing gallery...');
         galleryImages = document.querySelectorAll('.gallery-item img');
         modal = document.querySelector('.gallery-modal');
         
@@ -34,26 +32,18 @@
         if (!galleryImages.length) {
             console.error('No gallery images found');
             return;
-        }
-        
-        // Get modal elements
+        }
         modalImg = modal.querySelector('img');
         closeBtn = modal.querySelector('.gallery-modal-close');
         prevBtn = modal.querySelector('.gallery-prev');
         nextBtn = modal.querySelector('.gallery-next');
         currentImageSpan = modal.querySelector('.current-image');
-        totalImagesSpan = modal.querySelector('.total-images');
-        
-        // Update total images count
+        totalImagesSpan = modal.querySelector('.total-images');
         if (totalImagesSpan) {
             totalImagesSpan.textContent = galleryImages.length;
-        }
-        
-        // Add click events to gallery images
+        }
         galleryImages.forEach(function(img, index) {
-            img.style.cursor = 'pointer';
-            
-            // Use both click and mousedown for better compatibility
+            img.style.cursor = 'pointer';
             img.addEventListener('click', function(e) {
                 handleImageClick(e, index);
             });
@@ -63,9 +53,7 @@
                     handleImageClick(e, index);
                 }
             });
-        });
-        
-        // Add event listeners for modal controls
+        });
         if (closeBtn) {
             closeBtn.addEventListener('click', closeModal);
         }
@@ -82,16 +70,12 @@
                 e.stopPropagation();
                 showNextImage();
             });
-        }
-        
-        // Close modal when clicking outside image
+        }
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 closeModal();
             }
-        });
-        
-        // Keyboard navigation
+        });
         document.addEventListener('keydown', function(e) {
             if (modal.classList.contains('active')) {
                 switch(e.key) {
@@ -106,9 +90,7 @@
                         break;
                 }
             }
-        });
-        
-        // Zoom functionality
+        });
         if (modalImg) {
             modalImg.addEventListener('wheel', handleZoom);
             modalImg.addEventListener('dblclick', resetZoom);
@@ -128,16 +110,12 @@
         e.preventDefault();
         e.stopPropagation();
         
-        console.log('Gallery image clicked:', index + 1);
-        
-        // Apple effect
+        console.log('Gallery image clicked:', index + 1);
         const img = galleryImages[index];
         img.classList.add('apple-effect');
         setTimeout(function() {
             img.classList.remove('apple-effect');
-        }, 300);
-        
-        // Show modal
+        }, 300);
         currentImageIndex = index;
         showImage(currentImageIndex);
         openModal();
@@ -162,9 +140,7 @@
         if (modal) {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            console.log('Modal opened');
-            
-            // Ensure image is visible
+            console.log('Modal opened');
             setTimeout(function() {
                 if (modalImg) {
                     modalImg.style.opacity = '1';
@@ -195,9 +171,7 @@
             isNavigating = true;
             currentImageIndex--;
             showImage(currentImageIndex);
-            console.log('Previous image');
-            
-            // Reset navigation lock after a short delay
+            console.log('Previous image');
             setTimeout(function() {
                 isNavigating = false;
             }, 300);
@@ -211,9 +185,7 @@
             isNavigating = true;
             currentImageIndex++;
             showImage(currentImageIndex);
-            console.log('Next image');
-            
-            // Reset navigation lock after a short delay
+            console.log('Next image');
             setTimeout(function() {
                 isNavigating = false;
             }, 300);
@@ -280,19 +252,13 @@
                 modalImg.style.cursor = imageScale > 1 ? 'grab' : 'default';
             }
         }
-    }
-    
-    // Initialize when DOM is ready
+    }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initGallery);
     } else {
         initGallery();
-    }
-    
-    // Also try to initialize after a short delay as fallback
-    setTimeout(initGallery, 100);
-    
-    // Expose initGallery function globally for dynamic gallery updates
+    }
+    setTimeout(initGallery, 100);
     window.initializeGalleryEffects = initGallery;
     
 })();

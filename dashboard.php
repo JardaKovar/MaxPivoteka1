@@ -37,10 +37,16 @@ $loginTimeFormatted = date('H:i', $loginTime);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0, minimum-scale=1.0" />
     <title>MaxDashboard - MAX PIVOTÉKA</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css?v=<?= time() ?>">
-    <meta name="theme-color" content="#dc3545">
+    <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MaxDashboard">
 </head>
 <body>
@@ -54,45 +60,38 @@ $loginTimeFormatted = date('H:i', $loginTime);
 
     <header>
         <div class="header-left">
-            <h1>MaxDashboard - Edit Website Content</h1>
+            <div class="brand-badge"><i class="fa-solid fa-beer-mug-empty"></i> MAX PIVOTÉKA</div>
+            <h1>MaxDashboard <span>Administrace</span></h1>
         </div>
         <div class="header-right">
             <div class="user-info">
                 <div class="user-details">
-                    <span class="username"><?= htmlspecialchars($username) ?></span>
-                    <span class="login-time">Logged in: <?= $loginTimeFormatted ?></span>
+                    <span class="username"><i class="fa-solid fa-user-shield"></i> <?= htmlspecialchars($username) ?></span>
+                    <span class="login-time"><i class="fa-regular fa-clock"></i> Přihlášeno: <?= $loginTimeFormatted ?></span>
                 </div>
                 <div class="user-actions">
-                    <a href="index.php" target="_blank" class="btn-secondary">View Website</a>
+                    <a href="index.php" target="_blank" class="btn-secondary"><i class="fa-solid fa-arrow-up-right-from-square"></i> Zobrazit Web</a>
                     <?php if ($username !== 'MaxZ'): ?>
-                    <button id="activity-log-btn" class="btn-secondary" style="margin-left: 10px;">Activity Log History</button>
+                    <button id="activity-log-btn" class="btn-secondary"><i class="fa-solid fa-clock-rotate-left"></i> Historie aktivity</button>
                     <?php endif; ?>
-                    <a href="login.php?logout=1" class="btn-logout" style="margin-left: 10px;">Logout</a>
+                    <a href="login.php?logout=1" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Odhlásit se</a>
                 </div>
-
-
-
-
-
-
-
-
             </div>
         </div>
     </header>
 
     <main>
         <section id="edit-tap-list">
-            <h2>Edit "Právě na čepu" (Just on Tap)</h2>
+            <h2><i class="fa-solid fa-beer-mug-empty"></i> Úprava "Právě na čepu"</h2>
             <form id="tap-form" method="post" action="save_taplist.php">
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Number</th>
-                                <th>Brewery</th>
-                                <th>Beer</th>
-                                <th>Alc. %</th>
+                                <th>Číslo</th>
+                                <th>Pivovar</th>
+                                <th>Pivo</th>
+                                <th>Alk. %</th>
                                 <th>EPM</th>
                                 <th>0,5l (Kč)</th>
                             </tr>
@@ -111,28 +110,30 @@ $loginTimeFormatted = date('H:i', $loginTime);
                         </tbody>
                     </table>
                 </div>
-                <button type="submit">Save Tap List</button>
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit čepovaný lístek</button>
             </form>
         </section>
 
         <section id="edit-rental-list">
-            <h2>Edit "Půjčovna" (Rental List)</h2>
+            <h2><i class="fa-solid fa-boxes-packing"></i> Úprava "Půjčovna"</h2>
             
             <!-- Rental Image Management -->
-            <div style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid #333; border-radius: 8px;">
-                <h3>Rental Image Management</h3>
+            <div class="sub-card">
+                <h3><i class="fa-solid fa-images"></i> Správa obrázků půjčovny</h3>
                 
                 <!-- Upload Form -->
-                <form id="rental-upload-form" method="post" action="rental_upload.php" enctype="multipart/form-data" style="margin-bottom: 1.5rem;">
-                    <label for="rental-files">Upload Rental Images (multiple):</label>
-                    <input type="file" id="rental-files" name="rental_files[]" multiple accept="image/*">
-                    <button type="submit">Upload Images</button>
+                <form id="rental-upload-form" method="post" action="rental_upload.php" enctype="multipart/form-data" class="upload-box">
+                    <label for="rental-files"><i class="fa-solid fa-cloud-arrow-up"></i> Nahrát obrázky půjčovny (více najednou):</label>
+                    <div class="upload-controls">
+                        <input type="file" id="rental-files" name="rental_files[]" multiple accept="image/*">
+                        <button type="submit" class="btn-secondary"><i class="fa-solid fa-upload"></i> Nahrát obrázky</button>
+                    </div>
                 </form>
                 
                 <!-- Delete Form -->
                 <form id="rental-delete-form" method="post" action="rental_delete.php">
-                    <h4>Available Rental Images</h4>
-                    <div class="rental-images" style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0;">
+                    <h4>Dostupné obrázky</h4>
+                    <div class="rental-images">
                         <?php
                         $rentalDir = __DIR__ . '/images/rental/';
                         $rentalImages = [];
@@ -142,10 +143,10 @@ $loginTimeFormatted = date('H:i', $loginTime);
                         foreach ($rentalImages as $img):
                             if (in_array(strtolower(pathinfo($img, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])):
                         ?>
-                        <label style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                        <label class="image-select-card">
                             <input type="checkbox" name="delete_rental_images[]" value="<?= htmlspecialchars($img) ?>">
-                            <img src="images/rental/<?= htmlspecialchars($img) ?>" alt="Rental Image" style="max-height: 100px; max-width: 100px; object-fit: cover; border-radius: 4px;">
-                            <span style="font-size: 0.8rem; text-align: center; word-break: break-all;"><?= htmlspecialchars($img) ?></span>
+                            <img src="images/rental/<?= htmlspecialchars($img) ?>" alt="Obrázek půjčovny">
+                            <span><?= htmlspecialchars($img) ?></span>
                         </label>
                         <?php 
                             endif;
@@ -153,7 +154,7 @@ $loginTimeFormatted = date('H:i', $loginTime);
                         ?>
                     </div>
                     <?php if (!empty($rentalImages)): ?>
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete the selected images?')">Delete Selected</button>
+                    <button type="submit" class="btn-danger" onclick="return confirm('Opravdu chcete smazat vybrané obrázky?')"><i class="fa-solid fa-trash"></i> Smazat vybrané</button>
                     <?php endif; ?>
                 </form>
             </div>
@@ -164,15 +165,15 @@ $loginTimeFormatted = date('H:i', $loginTime);
                     <table>
                         <thead>
                             <tr>
-                                <th>Number</th>
-                                <th>Description 1</th>
-                                <th>Image</th>
-                                <th>Description 2</th>
-                                <th>Deposit</th>
-                                <th>Day</th>
-                                <th>Weekend</th>
-                                <th>Week</th>
-                                <th>Month</th>
+                                <th>Číslo</th>
+                                <th>Název 1</th>
+                                <th>Obrázek</th>
+                                <th>Detail 2</th>
+                                <th>Kauce</th>
+                                <th>Den</th>
+                                <th>Víkend</th>
+                                <th>Týden</th>
+                                <th>Měsíc</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -181,8 +182,8 @@ $loginTimeFormatted = date('H:i', $loginTime);
                                 <td><input type="number" name="rentallist[<?= $i ?>][number]" value="<?= htmlspecialchars($rentalList[$i]['number'] ?? $i + 1) ?>"></td>
                                 <td><input type="text" name="rentallist[<?= $i ?>][desc1]" value="<?= htmlspecialchars($rentalList[$i]['desc1'] ?? '') ?>"></td>
                                 <td>
-                                    <select name="rentallist[<?= $i ?>][image]" style="width: 100%; padding: 0.5rem;">
-                                        <option value="">Select Image</option>
+                                    <select name="rentallist[<?= $i ?>][image]">
+                                        <option value="">Vybrat obrázek</option>
                                         <?php
                                         $currentImage = $rentalList[$i]['image'] ?? '';
                                         foreach ($rentalImages as $img):
@@ -207,14 +208,14 @@ $loginTimeFormatted = date('H:i', $loginTime);
                         </tbody>
                     </table>
                 </div>
-                <button type="submit">Save Rental List</button>
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit ceník půjčovny</button>
             </form>
         </section>
 
         <section id="edit-events">
-            <h2>Edit "Akce" (Events)</h2>
+            <h2><i class="fa-solid fa-calendar-days"></i> Úprava "Akce"</h2>
             <?php
-            // Load events data from database
+            // Load events data
             $events = [];
             if ($pdo) {
                 try {
@@ -224,42 +225,59 @@ $loginTimeFormatted = date('H:i', $loginTime);
                     error_log("Failed to load events: " . $e->getMessage());
                 }
             }
-            
-            // Ensure we have at least 3 empty slots for editing
-            while (count($events) < 3) {
-                $events[] = ['date' => '', 'title' => '', 'description' => ''];
+            if (empty($events)) {
+                $eventsDataFile = __DIR__ . '/data/events.json';
+                if (file_exists($eventsDataFile)) {
+                    $events = json_decode(file_get_contents($eventsDataFile), true) ?: [];
+                }
             }
+            // Filter out empty items
+            $events = array_values(array_filter($events, function($e) {
+                return !empty($e['title']) || !empty($e['description']) || !empty($e['date']);
+            }));
             ?>
-            <form id="events-form" method="post" action="save_events.php">
-                <div class="events-grid">
-                    <?php for ($i = 0; $i < 3; $i++): ?>
+            <form id="events-form" method="post" action="save_events.php" style="margin-bottom: 2rem;">
+                <div class="events-grid" id="events-grid-container" style="margin-bottom: 1.5rem;">
+                    <?php foreach ($events as $i => $ev): ?>
                     <div class="event-edit-card">
-                        <h3>Event <?= $i + 1 ?></h3>
-                        <label>Date:</label>
-                        <input type="text" name="events[<?= $i ?>][date]" placeholder="24.12." maxlength="10" value="<?= htmlspecialchars($events[$i]['date'] ?? '') ?>">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <h3><i class="fa-solid fa-calendar-days"></i> Akce #<?= $i + 1 ?></h3>
+                            <button type="button" onclick="removeEventCard(this)" class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                <i class="fa-solid fa-trash"></i> Smazat akci
+                            </button>
+                        </div>
+
+                        <label>Datum:</label>
+                        <input type="text" name="events[<?= $i ?>][date]" placeholder="např. 24.12." maxlength="10" value="<?= htmlspecialchars($ev['date'] ?? '') ?>">
                         
-                        <label>Title:</label>
-                        <input type="text" name="events[<?= $i ?>][title]" placeholder="Event Title" maxlength="100" value="<?= htmlspecialchars($events[$i]['title'] ?? '') ?>">
+                        <label style="margin-top: 0.8rem;">Název akce:</label>
+                        <input type="text" name="events[<?= $i ?>][title]" placeholder="Název události" maxlength="100" value="<?= htmlspecialchars($ev['title'] ?? '') ?>">
                         
-                        <label>Description:</label>
-                        <textarea name="events[<?= $i ?>][description]" rows="4" placeholder="Event description..." maxlength="500"><?= htmlspecialchars($events[$i]['description'] ?? '') ?></textarea>
+                        <label style="margin-top: 0.8rem;">Popis:</label>
+                        <textarea name="events[<?= $i ?>][description]" rows="4" placeholder="Popis akce..." maxlength="500"><?= htmlspecialchars($ev['description'] ?? '') ?></textarea>
                     </div>
-                    <?php endfor; ?>
+                    <?php endforeach; ?>
                 </div>
-                <button type="submit">Save Events</button>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit akce</button>
+                    <button type="button" onclick="addEventCard()" class="btn-primary"><i class="fa-solid fa-plus"></i> Přidat další akci</button>
+                </div>
             </form>
         </section>
 
         <section id="edit-gallery">
-            <h2>Edit Gallery</h2>
-            <form id="gallery-upload-form" method="post" action="gallery_upload.php" enctype="multipart/form-data">
-                <label for="gallery-files">Upload Images (multiple):</label>
-                <input type="file" id="gallery-files" name="gallery_files[]" multiple accept="image/*">
-                <button type="submit">Upload Images</button>
+            <h2><i class="fa-solid fa-photo-film"></i> Úprava Galerie</h2>
+            <form id="gallery-upload-form" method="post" action="gallery_upload.php" enctype="multipart/form-data" class="upload-box">
+                <label for="gallery-files"><i class="fa-solid fa-cloud-arrow-up"></i> Nahrát fotky (více najednou):</label>
+                <div class="upload-controls">
+                    <input type="file" id="gallery-files" name="gallery_files[]" multiple accept="image/*">
+                    <button type="submit" class="btn-secondary"><i class="fa-solid fa-upload"></i> Nahrát fotky</button>
+                </div>
             </form>
             
             <form id="gallery-delete-form" method="post" action="gallery_delete.php">
-                <h3>Delete Images</h3>
+                <h3>Smazat fotky z galerie</h3>
                 <div class="gallery-images">
                     <?php
                     $galleryDir = __DIR__ . '/images/gallery/';
@@ -270,59 +288,91 @@ $loginTimeFormatted = date('H:i', $loginTime);
                     foreach ($galleryImages as $img):
                         if (in_array(strtolower(pathinfo($img, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])):
                     ?>
-                    <label>
+                    <label class="image-select-card">
                         <input type="checkbox" name="delete_gallery_images[]" value="<?= htmlspecialchars($img) ?>">
-                        <img src="images/gallery/<?= htmlspecialchars($img) ?>" alt="Gallery Image" style="max-height: 100px; margin: 5px;">
+                        <img src="images/gallery/<?= htmlspecialchars($img) ?>" alt="Galerie Obrázek">
                     </label>
                     <?php 
                         endif;
                     endforeach; 
                     ?>
                 </div>
-                <button type="submit">Delete Selected</button>
+                <?php if (!empty($galleryImages)): ?>
+                <button type="submit" class="btn-danger" onclick="return confirm('Opravdu chcete smazat vybrané obrázky?')"><i class="fa-solid fa-trash"></i> Smazat vybrané</button>
+                <?php endif; ?>
             </form>
         </section>
 
-
-
         <section id="cenik-management">
-            <h2>Price List Management</h2>
-            <form id="cenik-upload-form" method="post" action="cenik_upload.php" enctype="multipart/form-data">
-                <label for="cenik-files">Upload Images (multiple):</label>
-                <input type="file" id="cenik-files" name="cenik_files[]" multiple accept="image/*">
-                <button type="submit">Upload</button>
-            </form>
-            <form id="cenik-delete-form" method="post" action="cenik_delete.php">
-                <h3>Delete Images</h3>
-                <div class="cenik-images">
-                    <?php
-                    $cenikDir = __DIR__ . '/images/cenik/';
-                    $cenikImages = [];
-                    if (is_dir($cenikDir)) {
-                        $cenikImages = array_diff(scandir($cenikDir), ['.', '..']);
-                    }
-                    foreach ($cenikImages as $img):
-                        if (in_array(strtolower(pathinfo($img, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])):
+            <h2><i class="fa-solid fa-file-pdf"></i> Správa Ceníků</h2>
+            <?php
+            $cenikDataFile = __DIR__ . '/data/cenik.json';
+            $cenikList = file_exists($cenikDataFile) ? json_decode(file_get_contents($cenikDataFile), true) : [];
+            if (isset($cenikList['title']) && !isset($cenikList[0])) {
+                $cenikList = [['id' => '1', 'title' => $cenikList['title'], 'pdf' => $cenikList['pdf'] ?? 'uploads/cenik.pdf']];
+            }
+            if (empty($cenikList)) {
+                $cenikList = [['id' => '1', 'title' => 'Ceník Srpen', 'pdf' => 'uploads/cenik.pdf']];
+            }
+            ?>
+            
+            <form id="save-all-cenik-form" method="post" action="save_cenik.php" enctype="multipart/form-data" style="margin-bottom: 2rem;">
+                <input type="hidden" name="action" value="save_all">
+                
+                <div class="events-grid" style="margin-bottom: 1.5rem;">
+                    <?php foreach ($cenikList as $index => $item): 
+                        $itemId = htmlspecialchars($item['id']);
+                        $itemTitle = htmlspecialchars($item['title'] ?? '');
+                        $itemPdf = htmlspecialchars($item['pdf'] ?? '');
                     ?>
-                    <label>
-                        <input type="checkbox" name="delete_cenik_images[]" value="<?= htmlspecialchars($img) ?>">
-                        <img src="images/cenik/<?= htmlspecialchars($img) ?>" alt="Price List Image" style="max-height: 100px; margin: 5px;">
-                    </label>
-                    <?php 
-                        endif;
-                    endforeach; 
-                    ?>
+                        <div class="event-edit-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                                <h3><i class="fa-solid fa-beer-mug-empty"></i> Ceník <?= $index + 1 ?></h3>
+                                <?php if (count($cenikList) > 1): ?>
+                                <button type="submit" form="delete-form-<?= $itemId ?>" onclick="return confirm('Opravdu chcete tento ceník smazat?')" class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <?php endif; ?>
+                            </div>
+
+                            <label>Název ceníku (vepsaný v sudu):</label>
+                            <input type="text" name="title[<?= $itemId ?>]" value="<?= $itemTitle ?>" placeholder="např. Ceník Srpen" required>
+
+                            <label style="margin-top: 0.8rem;">Nahrát PDF ceník:</label>
+                            <input type="file" name="pdf_<?= $itemId ?>" accept=".pdf" style="font-size: 0.85rem; color: #ccc; width: 100%;">
+                            <?php if (!empty($itemPdf) && file_exists(__DIR__ . '/' . $itemPdf)): ?>
+                                <p style="margin-top: 8px; color: #4ade80; font-size: 0.85rem; word-break: break-all;">
+                                    <i class="fa-solid fa-circle-check"></i> Uloženo: <a href="<?= $itemPdf ?>" target="_blank" style="color: #60a5fa; text-decoration: underline;"><?= basename($itemPdf) ?></a>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                <button type="submit">Delete Selected</button>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit ceníky</button>
+                    <button type="submit" form="add-new-form" class="btn-secondary"><i class="fa-solid fa-plus"></i> Přidat další ceník</button>
+                </div>
+            </form>
+
+            <?php foreach ($cenikList as $item): ?>
+                <form id="delete-form-<?= htmlspecialchars($item['id']) ?>" method="post" action="save_cenik.php" style="display:none;">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="delete_id" value="<?= htmlspecialchars($item['id']) ?>">
+                </form>
+            <?php endforeach; ?>
+
+            <form id="add-new-form" method="post" action="save_cenik.php" style="display:none;">
+                <input type="hidden" name="action" value="add">
             </form>
         </section>
 
         <!-- Reservation Management Section -->
         <section id="reservation-management">
-            <h2>Správa rezervací</h2>
+            <h2>Správa poptávek</h2>
             <div class="reservation-stats">
                 <div class="stat-card">
-                    <h3>Celkem rezervací</h3>
+                    <h3>Celkem poptávek</h3>
                     <span id="total-reservations">0</span>
                 </div>
                 <div class="stat-card">
@@ -364,11 +414,74 @@ $loginTimeFormatted = date('H:i', $loginTime);
         <?php else: ?>
 
         <?php endif; ?>
-    </main>
+    <section id="edit-popup">
+            <h2><i class="fa-solid fa-bullhorn"></i> Správa Pop-up Oznámení (Vyskakovací okno na webu)</h2>
+            <?php
+            $popupDataFile = __DIR__ . '/data/popup.json';
+            $popupSettings = file_exists($popupDataFile) ? json_decode(file_get_contents($popupDataFile), true) : [];
+            $pActive = !empty($popupSettings['active']);
+            $pTitle = htmlspecialchars($popupSettings['title'] ?? '');
+            $pText = htmlspecialchars($popupSettings['text'] ?? '');
+            $pStart = htmlspecialchars($popupSettings['start_datetime'] ?? '');
+            $pEnd = htmlspecialchars($popupSettings['end_datetime'] ?? '');
+            $pImage = htmlspecialchars($popupSettings['image'] ?? '');
+            ?>
+            <form id="popup-form" method="post" action="save_popup.php" enctype="multipart/form-data">
+                <div class="event-edit-card" style="margin-bottom: 1.5rem;">
+                    
+                    <label class="popup-toggle-wrapper" for="popup_active_php" style="margin-bottom: 1.25rem;">
+                        <span class="toggle-switch">
+                            <input type="checkbox" id="popup_active_php" name="active" value="1" <?= $pActive ? 'checked' : '' ?> onchange="updatePopupToggleLabel(this)">
+                            <span class="toggle-slider"></span>
+                        </span>
+                        <span class="toggle-label-text" id="popup_toggle_label_php"><?= $pActive ? 'Vypnout' : 'Zapnout' ?> pop-up vyskakovací okno na webu</span>
+                    </label>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Nadpis oznámení:</label>
+                        <input type="text" name="title" value="<?= $pTitle ?>" placeholder="např. Mimořádná otevírací doba / Důležité upozornění" style="width: 100%;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Text oznámení:</label>
+                        <textarea name="text" rows="4" placeholder="Napište zprávu pro návštěvníky webu..." style="width: 100%;"><?= $pText ?></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-clock"></i> Datum a čas spuštění (Platí OD):</label>
+                            <input type="datetime-local" name="start_datetime" value="<?= $pStart ?>" style="width: 100%;">
+                            <small style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px; display: block;">Ponechte prázdné pro okamžité spuštění</small>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-hourglass-end"></i> Datum a čas ukončení (Platí DO):</label>
+                            <input type="datetime-local" name="end_datetime" value="<?= $pEnd ?>" style="width: 100%;">
+                            <small style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px; display: block;">Ponechte prázdné bez časového omezení</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-image"></i> Volitelná fotka / banner k oznámení (nepovinné):</label>
+                        <input type="file" name="popup_image" accept="image/*" style="font-size: 0.85rem; color: #ccc;">
+                        <?php if (!empty($pImage) && file_exists(__DIR__ . '/' . $pImage)): ?>
+                            <div style="margin-top: 0.8rem; display: flex; align-items: center; gap: 1rem; background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px;">
+                                <img src="<?= $pImage ?>" alt="Pop-up obrázek" style="max-height: 80px; border-radius: 6px; border: 1px solid #475569;">
+                                <label style="display: inline-flex; align-items: center; gap: 0.4rem; color: #ef4444; cursor: pointer; font-size: 0.9rem;">
+                                    <input type="checkbox" name="remove_image" value="1"> Smazat současnou fotku
+                                </label>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit pop-up oznámení</button>
+            </form>
+        </section>
+</main>
 
     <!-- Activity Log Modal -->
     <?php if ($username !== 'MaxZ'): ?>
-    <div id="activity-log-modal" class="modal">
+    <div id="activity-log-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Activity Log History</h2>
@@ -889,13 +1002,89 @@ $loginTimeFormatted = date('H:i', $loginTime);
             });
         }
 
-        // Load reservations when page loads
+        // Load reservations when page loads & auto-scroll to active section anchor
         document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 150);
+                }
+            }
+
             // Load reservations after a short delay to ensure page is fully loaded
             setTimeout(() => {
                 loadReservations();
             }, 1000);
         });
 
-    </script>
+    
+    function addEventCard() {
+        const container = document.getElementById('events-grid-container');
+        if (!container) return;
+
+        const currentCards = container.querySelectorAll('.event-edit-card');
+        const newIndex = currentCards.length;
+
+        const newCard = document.createElement('div');
+        newCard.className = 'event-edit-card';
+
+        newCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                <h3><i class="fa-solid fa-calendar-days"></i> Akce #${newIndex + 1}</h3>
+                <button type="button" onclick="removeEventCard(this)" class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                    <i class="fa-solid fa-trash"></i> Smazat akci
+                </button>
+            </div>
+            <label>Datum:</label>
+            <input type="text" name="events[${newIndex}][date]" placeholder="např. 24.12." maxlength="10">
+            
+            <label style="margin-top: 0.8rem;">Název akce:</label>
+            <input type="text" name="events[${newIndex}][title]" placeholder="Název události" maxlength="100">
+            
+            <label style="margin-top: 0.8rem;">Popis:</label>
+            <textarea name="events[${newIndex}][description]" rows="4" placeholder="Popis akce..." maxlength="500"></textarea>
+        `;
+
+        container.appendChild(newCard);
+    }
+
+    function removeEventCard(btn) {
+        const card = btn.closest('.event-edit-card');
+        if (card) {
+            card.remove();
+            reindexEventCards();
+        }
+    }
+
+    function reindexEventCards() {
+        const container = document.getElementById('events-grid-container');
+        if (!container) return;
+
+        const cards = container.querySelectorAll('.event-edit-card');
+        cards.forEach((card, index) => {
+            card.setAttribute('data-index', index);
+            const titleHeader = card.querySelector('.event-card-header h3');
+            if (titleHeader) titleHeader.textContent = `Akce #${index + 1}`;
+
+            const dateInput = card.querySelector('input[name*="[date]"]');
+            const titleInput = card.querySelector('input[name*="[title]"]');
+            const descInput = card.querySelector('textarea[name*="[description]"]');
+
+            if (dateInput) dateInput.name = `events[${index}][date]`;
+            if (titleInput) titleInput.name = `events[${index}][title]`;
+            if (descInput) descInput.name = `events[${index}][description]`;
+        });
+    }
+
+
+    function updatePopupToggleLabel(checkbox) {
+        const labelText = checkbox.closest('.popup-toggle-wrapper').querySelector('.toggle-label-text');
+        if (labelText) {
+            labelText.textContent = (checkbox.checked ? 'Vypnout' : 'Zapnout') + ' pop-up vyskakovací okno na webu';
+        }
+    }
+
+</script>
 </html>

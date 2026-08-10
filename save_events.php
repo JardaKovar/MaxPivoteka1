@@ -46,9 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['events'])) {
         return !empty($event['title']) || !empty($event['description']);
     });
     
-    if (!empty($filteredEvents)) {
-        file_put_contents($eventsDataFile, json_encode(array_values($filteredEvents), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    }
+    file_put_contents($eventsDataFile, json_encode(array_values($filteredEvents), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
     // Log the activity
     if ($pdo) {

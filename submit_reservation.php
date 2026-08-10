@@ -141,7 +141,7 @@ try {
             <p>Vaše rezervace má aktuálně status <strong>ČEKÁ NA POTVRZENÍ</strong>. Budeme Vás kontaktovat v nejbližší době s dalšími informacemi.</p>
             
             <p>V případě jakýchkoli dotazů nás neváhejte kontaktovat:</p>
-            <p>📞 +420 605 085 150 nebo +420 603 239 703<br>
+            <p>📞 +420 731 179 453 (Marek Skořepa), +420 317 721 341 (Prodejna) nebo +420 603 239 703 (Petr Pokorný)<br>
             📧 odmax@seznam.cz</p>
         </div>
         <div class='footer'>

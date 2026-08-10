@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" width="900" height="320">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap');
+      .sladovka-text {
+        font-family: 'Caveat', 'Brush Script MT', cursive, Georgia, serif;
+        font-weight: 700;
+        font-size: 145px;
+        fill: #ffffff;
+      }
+    </style>
+  </defs>
+
+  <!-- Water drops on left -->
+  <g transform="translate(120, 110)">
+    <!-- Top left drop -->
+    <path d="M 30 10 C 15 35 5 50 5 65 A 25 25 0 0 0 55 65 C 55 50 45 35 30 10 Z" fill="#3ca6eb" />
+    <!-- Top right drop -->
+    <path d="M 75 25 C 62 45 54 58 54 70 A 20 20 0 0 0 94 70 C 94 58 86 45 75 25 Z" fill="#3ca6eb" />
+    <!-- Bottom drop -->
+    <path d="M 52 85 C 44 98 38 106 38 114 A 14 14 0 0 0 66 114 C 66 106 60 98 52 85 Z" fill="#3ca6eb" />
+  </g>
+
+  <!-- Golden Wheat Ears Arc -->
+  <g transform="translate(420, 35)">
+    <!-- Stem -->
+    <path d="M 0 60 Q 220 -30 420 35" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+    
+    <!-- Top grain row -->
+    <path d="M 20 38 Q 40 18 55 33 Q 35 48 20 38 Z" fill="#ebaa17" />
+    <path d="M 55 27 Q 75 7 90 22 Q 70 37 55 27 Z" fill="#ebaa17" />
+    <path d="M 90 18 Q 110 -2 125 13 Q 105 28 90 18 Z" fill="#ebaa17" />
+    <path d="M 125 12 Q 145 -8 160 7 Q 140 22 125 12 Z" fill="#ebaa17" />
+    <path d="M 160 9 Q 180 -11 195 4 Q 175 19 160 9 Z" fill="#ebaa17" />
+    <path d="M 195 10 Q 215 -10 230 5 Q 210 20 195 10 Z" fill="#ebaa17" />
+    
+    <!-- Bottom grain row -->
+    <path d="M 40 58 Q 60 38 75 53 Q 55 68 40 58 Z" fill="#ebaa17" />
+    <path d="M 75 45 Q 95 25 110 40 Q 90 55 75 45 Z" fill="#ebaa17" />
+    <path d="M 110 33 Q 130 13 145 28 Q 125 43 110 33 Z" fill="#ebaa17" />
+    <path d="M 145 25 Q 165 5 180 20 Q 160 35 145 25 Z" fill="#ebaa17" />
+    <path d="M 180 20 Q 200 0 215 15 Q 195 30 180 20 Z" fill="#ebaa17" />
+    <path d="M 215 19 Q 235 -1 250 14 Q 230 29 215 19 Z" fill="#ebaa17" />
+  </g>
+
+  <!-- Text Na Sladovce -->
+  <text x="210" y="245" class="sladovka-text">Na Sladovce</text>
+</svg>

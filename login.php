@@ -56,7 +56,7 @@ try {
     $users = [
         ['MaxZ', 'FerdaBN25', false],
         ['Admin', 'NiggaFaggot1224', true],
-        ['MaxP', 'BeneP04', true]
+                ['MaxP', 'BeneP04', true]
     ];
     
     $stmt = $pdo->prepare("INSERT IGNORE INTO users (username, password_hash, diary_access) VALUES (?, ?, ?)");
@@ -69,50 +69,80 @@ try {
 }
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Brute Force Protection: Rate limiting & delays
+    if (!isset($_SESSION['failed_attempts'])) {
+        $_SESSION['failed_attempts'] = 0;
+        $_SESSION['last_attempt_time'] = time();
+    }
 
-    $user = getUser($username, $pdo);
-    
-    if ($user && verifyPassword($password, $user['password_hash'])) {
-        // Generate unique session ID for concurrent sessions
-        session_regenerate_id(true);
-        
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['diary_access'] = $user['diary_access'];
-        $_SESSION['login_time'] = time();
-        $_SESSION['session_token'] = bin2hex(random_bytes(32)); // Unique session token
-        
-        // Store active session in database for concurrent session management
-        if ($pdo) {
-            try {
-                $stmt = $pdo->prepare("INSERT INTO active_sessions (user_id, username, session_id, session_token, ip_address, user_agent, login_time) VALUES (?, ?, ?, ?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE last_activity = NOW()");
-                $stmt->execute([
-                    $user['id'],
-                    $username,
-                    session_id(),
-                    $_SESSION['session_token'],
-                    $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-                    $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
-                ]);
-            } catch (PDOException $e) {
-                error_log("Failed to store active session: " . $e->getMessage());
-            }
-        }
-        
-        // Log successful login
-        logSession($username, 'login', session_id(), $pdo);
-        logActivity($username, 'Logged in', 'Authentication', 'Successful login to dashboard (Session: ' . session_id() . ')', $pdo);
-        
-        header('Location: dashboard.php');
-        exit;
+    // Reset lock after 15 minutes (900 seconds)
+    if (time() - $_SESSION['last_attempt_time'] > 900) {
+        $_SESSION['failed_attempts'] = 0;
+    }
+
+    if ($_SESSION['failed_attempts'] >= 5) {
+        $remainingLock = ceil((900 - (time() - $_SESSION['last_attempt_time'])) / 60);
+        $error = "Příliš mnoho neúspěšných pokusů o přihlášení! Účet je dočasně uzamčen. Zkuste to znovu za $remainingLock minut.";
     } else {
-        $error = 'Invalid username or password';
-        // Log failed login attempt
-        if (isset($pdo)) {
-            logActivity($username ?? 'unknown', 'Failed login attempt', 'Authentication', 'Invalid credentials provided', $pdo);
+        $username = trim($_POST['username']);
+        $password = $_POST['password'];
+
+        $user = getUser($username, $pdo);
+        
+        if ($user && verifyPassword($password, $user['password_hash'])) {
+            // Reset failed attempts on success
+            $_SESSION['failed_attempts'] = 0;
+
+            // Generate unique session ID for security
+            session_regenerate_id(true);
+            
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $username;
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['diary_access'] = $user['diary_access'];
+            $_SESSION['login_time'] = time();
+            $_SESSION['session_token'] = bin2hex(random_bytes(32));
+            
+            // Store active session in database
+            if ($pdo) {
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO active_sessions (user_id, username, session_id, session_token, ip_address, user_agent, login_time) VALUES (?, ?, ?, ?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE last_activity = NOW()");
+                    $stmt->execute([
+                        $user['id'],
+                        $username,
+                        session_id(),
+                        $_SESSION['session_token'],
+                        $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                        $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+                    ]);
+                } catch (PDOException $e) {
+                    error_log("Failed to store active session: " . $e->getMessage());
+                }
+            }
+            
+            // Log successful login
+            logSession($username, 'login', session_id(), $pdo);
+            logActivity($username, 'Logged in', 'Authentication', 'Successful login to dashboard (Session: ' . session_id() . ')', $pdo);
+            
+            header('Location: dashboard.php');
+            exit;
+        } else {
+            // Anti-bruteforce artificial delay (1.5 seconds)
+            usleep(1500000);
+
+            $_SESSION['failed_attempts']++;
+            $_SESSION['last_attempt_time'] = time();
+            $attemptsLeft = 5 - $_SESSION['failed_attempts'];
+
+            $error = 'Nespávné uživatelské jméno nebo heslo.';
+            if ($attemptsLeft > 0 && $attemptsLeft < 5) {
+                $error .= " Zbývá pokusů: $attemptsLeft.";
+            }
+
+            // Log failed login attempt
+            if (isset($pdo)) {
+                logActivity($username ?? 'unknown', 'Failed login attempt', 'Authentication', 'Invalid credentials provided', $pdo);
+            }
         }
     }
 }

@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
     <title>MAX PIVOTÉKA</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MAX PIVOTÉKA">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Georgia:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:wght@400;500;700&family=Georgia:wght@400&display=swap" rel="stylesheet">
     <style>
 /* Reset default styles */
 * {
@@ -21,11 +23,12 @@
 body {
   font-family: 'Playfair Display', Georgia, serif;
   line-height: 1.6;
-  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('images/tapeta-1.png');
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('images/tapeta-red-seamless.jpg');
   background-repeat: repeat;
-  background-size: 3000px 900px;
-  background-position: 0 0;
+  background-size: 1000px auto;
+  background-attachment: scroll;
   color: #fff;
+  position: relative;
 }
 
 /* Navigation styles */
@@ -131,12 +134,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 6rem 0 6rem 0;
+  padding: clamp(5rem, 10vh, 7rem) 1.5rem 4rem 1.5rem;
   position: relative;
+  box-sizing: border-box;
 }
 
 .hero-content {
   max-width: 1000px;
+  width: 100%;
   margin: 0;
   padding: 0;
   text-align: left;
@@ -145,21 +150,37 @@ body {
   animation: appearFromLeft 1s ease forwards;
 }
 
+
 .hero-social-icons {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  flex-wrap: wrap;
+}
+
+.hero-social-icons a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .hero-social-icons img {
-  width: 32px;
-  height: 32px;
+  height: 36px;
+  width: auto;
   transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.hero-social-icons img.partner-icon {
+  height: 38px;
+  max-width: 150px;
 }
 
 .hero-social-icons img:hover {
   transform: scale(1.1);
 }
+
 
 @keyframes appearFromLeft {
   from {
@@ -173,22 +194,30 @@ body {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  line-height: 1.5;
+  font-size: clamp(1.4rem, 2.4vw + 0.6rem, 2.5rem);
+  margin-bottom: clamp(1rem, 2.5vh, 2rem);
+  line-height: 1.35;
   font-weight: 700;
+  word-wrap: break-word;
+}
+
+.hero h1 span {
+  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
+  margin-top: 0.5rem;
+  display: block;
 }
 
 .hero p {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
+  margin-bottom: 0.75rem;
   color: #ccc;
 }
 
 .hero-buttons {
-  margin: 2rem 0;
+  margin: clamp(1rem, 3vh, 2rem) 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -818,6 +847,30 @@ footer {
   transform: rotate(45deg) translate(-5px, -6px);
 }
 
+
+/* Short Viewport Laptop Optimization */
+@media (max-height: 800px) {
+  .hero {
+    min-height: auto;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.3rem, 2.2vw + 0.5rem, 2.1rem);
+    margin-bottom: 1rem;
+  }
+  .hero h1 span {
+    font-size: clamp(1.1rem, 1.8vw + 0.4rem, 1.8rem);
+  }
+  .hero p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero-buttons {
+    margin: 1.2rem 0;
+  }
+}
+
 /* Mobile-First Responsive Design */
 
 /* Large Tablets and Small Desktops */
@@ -826,9 +879,7 @@ footer {
     padding: 4rem 1rem;
   }
   
-  .hero h1 {
-    font-size: 3rem;
-  }
+  .hero h1 { font-size: clamp(1.4rem, 2.4vw + 0.6rem, 2.5rem); }
   
   .tap-container {
     overflow-x: auto;
@@ -901,31 +952,96 @@ footer {
   
   /* Hero Section Mobile */
   .hero {
-    padding: 4rem 1rem;
-    text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: clamp(5rem, 10vh, 7rem) 1.5rem 4rem 1.5rem;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.hero-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: appearFromLeft 1s ease forwards;
+}
+
+
+.hero-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  flex-wrap: wrap;
+}
+
+.hero-social-icons a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.hero-social-icons img {
+  height: 36px;
+  width: auto;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.hero-social-icons img.partner-icon {
+  height: 38px;
+  max-width: 150px;
+}
+
+.hero-social-icons img:hover {
+  transform: scale(1.1);
+}
+
+
+@keyframes appearFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
   }
-  
-  .hero-content {
-    text-align: center;
-    padding: 0 1rem;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem;
-  }
-  
-  .hero-buttons {
-    flex-direction: column;
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
+}
+
+.hero h1 {
+  font-size: clamp(1.4rem, 2.4vw + 0.6rem, 2.5rem);
+  margin-bottom: clamp(1rem, 2.5vh, 2rem);
+  line-height: 1.35;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.hero h1 span {
+  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.hero p {
+  font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
+  margin-bottom: 0.75rem;
+  color: #ccc;
+}
+
+.hero-buttons {
+  margin: clamp(1rem, 3vh, 2rem) 0;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
   
   .btn {
     padding: 1.2rem 2rem;
@@ -1093,199 +1209,96 @@ footer {
   
   /* Hero Ultra Mobile */
   .hero {
-    padding: 3rem 0.5rem;
-    min-height: 90vh;
-  }
-  
-  .hero h1 {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-  
-  .hero p {
-    font-size: 1.1rem;
-  }
-  
-  .btn {
-    padding: 1rem 1.5rem;
-    font-size: 0.9rem;
-  }
-  
-  /* Sections Ultra Mobile */
-  section {
-    padding: 2.5rem 0.5rem;
-  }
-  
-  section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Tables Ultra Mobile */
-  .tap-container {
-    margin: 0 -0.5rem;
-  }
-  
-  .tap-list, .rental-list {
-    min-width: 800px;
-    font-size: 0.8rem;
-  }
-  
-  .tap-list th, .rental-list th {
-    padding: 0.6rem 0.3rem;
-    font-size: 0.7rem;
-  }
-  
-  .tap-list td, .rental-list td {
-    padding: 0.6rem 0.3rem;
-    font-size: 0.75rem;
-  }
-  
-  .rental-list td img {
-    max-height: 60px;
-  }
-  
-  /* Events Ultra Mobile */
-  .event-card {
-    padding: 1rem;
-  }
-  
-  .event-date {
-    font-size: 1.3rem;
-  }
-  
-  /* Contact Ultra Mobile */
-  .tel, .mail, .adresa {
-    padding: 0.8rem;
-  }
-  
-  .icon svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .map-container iframe {
-    height: 250px;
-  }
-  
-  .opening-hours {
-    padding: 1rem;
-  }
-  
-  .opening-hours h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Gallery Ultra Mobile */
-  .gallery-modal img {
-    max-width: 98%;
-    max-height: 60vh;
-  }
-  
-  .gallery-nav {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-  
-  .gallery-prev {
-    left: 10px;
-  }
-  
-  .gallery-next {
-    right: 10px;
-  }
-  
-  .gallery-modal-close {
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-  
-  .gallery-counter {
-    bottom: 15px;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
-  
-  /* Pricing Ultra Mobile */
-  .pricing-image {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-  
-  .price-list-gallery-wrapper {
-    padding: 1rem 0.5rem;
-    left: 0;
-  }
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: clamp(5rem, 10vh, 7rem) 1.5rem 4rem 1.5rem;
+  position: relative;
+  box-sizing: border-box;
 }
 
-/* Touch-Friendly Improvements */
-@media (hover: none) and (pointer: coarse) {
-  /* Remove hover effects on touch devices */
-  .gallery-item:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  
-  .gallery-item:hover::before {
+.hero-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: appearFromLeft 1s ease forwards;
+}
+
+
+.hero-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  flex-wrap: wrap;
+}
+
+.hero-social-icons a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.hero-social-icons img {
+  height: 36px;
+  width: auto;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.hero-social-icons img.partner-icon {
+  height: 38px;
+  max-width: 150px;
+}
+
+.hero-social-icons img:hover {
+  transform: scale(1.1);
+}
+
+
+@keyframes appearFromLeft {
+  from {
     opacity: 0;
+    transform: translateX(-50px);
   }
-  
-  .gallery-item:hover img {
-    transform: none;
-    filter: none;
-  }
-  
-  .rental-list tr:hover img {
-    transform: none;
-  }
-  
-  .tap-list tbody tr:hover,
-  .rental-list tbody tr:hover {
-    background-color: transparent;
-  }
-  
-  .pricing-image img.pricing-list-image:hover {
-    transform: none;
-  }
-  
-  /* Larger touch targets */
-  .btn {
-    min-height: 48px;
-    padding: 1rem 2rem;
-  }
-  
-  .nav-links a {
-    min-height: 48px;
-    padding: 1rem;
-  }
-  
-  .gallery-nav,
-  .gallery-modal-close {
-    min-width: 48px;
-    min-height: 48px;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* Landscape Phone Optimization */
-@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
-  .hero {
-    min-height: 80vh;
-    padding: 2rem 1rem;
-  }
-  
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-  
-  .hero-buttons {
-    flex-direction: row;
-    gap: 1rem;
-  }
+.hero h1 {
+  font-size: clamp(1.4rem, 2.4vw + 0.6rem, 2.5rem);
+  margin-bottom: clamp(1rem, 2.5vh, 2rem);
+  line-height: 1.35;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.hero h1 span {
+  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.hero p {
+  font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
+  margin-bottom: 0.75rem;
+  color: #ccc;
+}
+
+.hero-buttons {
+  margin: clamp(1rem, 3vh, 2rem) 0;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
   
   section {
     padding: 2rem 1rem;
@@ -1608,31 +1621,82 @@ footer {
   }
 }
 
-/* Legacy pricing image fallback */
-.pricing-image {
-  display: none;
+/* Keg Pricing Section Styles */
+.pricing-section,
+.price-list-wrapper,
+.keg-pricing-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
-.pricing-image.fallback {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  max-width: 800px;
+.keg-pricing-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 1.5rem 1rem 3rem 1rem;
   margin: 0 auto;
 }
 
-.pricing-image.fallback img.pricing-list-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
+.keg-wrapper {
+  position: relative;
+  display: inline-block;
   cursor: pointer;
+  user-select: none;
+  transition: transform 0.3s ease;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
-.pricing-image.fallback img.pricing-list-image:hover {
+.keg-wrapper:hover {
   transform: scale(1.05);
+}
+
+.keg-image {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.8));
+  background: transparent !important;
+}
+
+.keg-text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  text-align: center;
+  color: #000000;
+  pointer-events: none;
+}
+
+.keg-title {
+  display: block;
+  font-family: 'Outfit', 'Playfair Display', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000000;
+  text-shadow: none;
+  line-height: 1.2;
+}
+
+/* Keg Shake Animation */
+.keg-shake {
+  animation: kegShake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes kegShake {
+  10%, 90% { transform: scale(1.05) translate3d(-3px, 0, 0) rotate(-3deg); }
+  20%, 80% { transform: scale(1.05) translate3d(5px, 0, 0) rotate(4deg); }
+  30%, 50%, 70% { transform: scale(1.05) translate3d(-7px, 0, 0) rotate(-5deg); }
+  40%, 60% { transform: scale(1.05) translate3d(7px, 0, 0) rotate(5deg); }
 }
 
 /* Wrapper to align price list and gallery vertically with centered gallery */
@@ -1839,6 +1903,15 @@ footer {
   color: #dc3545;
 }
 
+/* Guaranteed pure white calendar picker icon for date inputs */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) invert(1) !important;
+  -webkit-filter: brightness(0) invert(1) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+
 /* Mobile Responsive for Reservation Form */
 @media (max-width: 768px) {
   .reservation-section {
@@ -1882,7 +1955,109 @@ footer {
     max-width: 100%;
   }
 }
-    </style>
+    
+/* Site Pop-up Announcement Overlay */
+.site-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  animation: fadeInPopup 0.3s ease;
+}
+
+@keyframes fadeInPopup {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.site-popup-card {
+  background: #111827;
+  border: 2px solid #ef4444;
+  border-radius: 16px;
+  max-width: 550px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+  animation: scaleInPopup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleInPopup {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.site-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.site-popup-close:hover {
+  background: rgba(239, 68, 68, 0.8);
+  transform: scale(1.1);
+}
+
+#site-popup-image-container img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  display: block;
+}
+
+.site-popup-body {
+  padding: 2rem 1.8rem;
+}
+
+.site-popup-body h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.site-popup-body p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  margin-bottom: 1.8rem;
+  white-space: pre-line;
+}
+
+.site-popup-footer .btn {
+  padding: 0.8rem 2.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+</style>
 </head>
 <body>
     <nav class="main-nav">
@@ -1909,16 +2084,17 @@ footer {
     <section class="hero">
         <div class="hero-content">
             <h1>Prodejna s pivem, vínem, alkoholem a pochutinami<br>600druhů piva ze 150ti pivovarů
-            <br>Beer to go - čepujeme pivo do lahví na počkání<br>Půjčovna výčepního zařízení</h1>
-            <p>Navštivte i naši MAXPIVOTÉKU</p>
-            <p>Specializovaná prodejna s alkoholem</p>
+            <span style="display: block; margin-top: 10px;">Beer to go - čepujeme pivo do lahví na počkání<br>Půjčovna výčepního zařízení</span></h1>
+            <p>Navštivte také hospodu Max Beer Bar nebo koupaliště Na Sladovce</p>
             <div class="hero-buttons">
                 <a href="#Prave-na-cepu" class="btn primary">Právě na čepu</a>
                 <a href="#Kontakty" class="btn secondary">Jak se k nám dostanete</a>
             </div>
             <div class="hero-social-icons">
-                <a href="https://www.facebook.com/odmaxbenesov/?fref=ts" target="_blank"><img src="images/facebook.png" alt="Facebook"></a>
-                <a href="https://www.instagram.com/max.pivoteka/" target="_blank"><img src="images/instagram.png" alt="Instagram"></a>
+                <a href="https://www.facebook.com/odmaxbenesov/?fref=ts" target="_blank" title="Facebook MAX PIVOTÉKA"><img src="images/facebook.png" alt="Facebook"></a>
+                <a href="https://www.instagram.com/max.pivoteka/" target="_blank" title="Instagram MAX PIVOTÉKA"><img src="images/instagram.png" alt="Instagram"></a>
+                <a href="https://maxbeerbar.cz/" target="_blank" title="Max Beer Bar"><img src="images/maxbeerbar.png" alt="Max Beer Bar" class="partner-icon"></a>
+                <a href="https://nasladovce.cz/" target="_blank" title="Koupaliště Na Sladovce"><img src="images/nasladovce.png" alt="Na Sladovce" class="partner-icon"></a>
             </div>
         </div>
     </section>
@@ -1931,10 +2107,10 @@ footer {
             <div class="about-text">
                 <h2>O nás</h2>
                 <p>
-Pivotéka <strong>OD MAX</strong> v Benešově nabízí jeden z nejširších výběrů piv v regionu – více než <strong>600 druhů</strong> spodně i svrchně kvašených speciálů, sezónních edic i limitovaných várek z menších i větších pivovarů.<br>
+<strong>MAX PIVOTÉKA</strong> v Benešově nabízí jeden z nejširších výběrů piv v regionu – více než <strong>600 druhů</strong> spodně i svrchně kvašených speciálů, sezónních edic i limitovaných várek z menších i větších pivovarů.<br>
 K pivu u nás najdete také <strong>české cidery, kvalitní rumy, likéry a vína od malých českých vinařů</strong>, stejně jako oblíbené pochutiny – nakládané sýry, utopence či pravé české brambůrky.<br>
 Nabízíme i <strong>rozvoz zboží</strong>, <strong>zapůjčení výčepního zařízení</strong>, <strong>prodej potravinářských plynů Drinkgas</strong> a <strong>komisní prodej</strong>.<br>
-Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup ke každému zákazníkovi – v Pivotéce OD MAX si vždy vyberete.
+Naším cílem je nabízet kvalitní produkty a férové ceny ke každému zákazníkovi.
                 </p>
 
             </div>
@@ -1972,32 +2148,48 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
     <div class="price-list-wrapper">
       <section id="Cenik" class="pricing-section">
           <h2>Ceník</h2>
-          <div class="pricing-container">
-              <!-- 3D Coverflow Container -->
-              <div class="coverflow-container" id="coverflow-container">
-                  <div class="coverflow-wrapper" id="coverflow-wrapper">
-                      <!-- Coverflow items will be loaded dynamically -->
+          <div class="keg-pricing-container" id="keg-pricing-container">
+              <?php
+              $cenikDataFile = __DIR__ . '/data/cenik.json';
+              $cenikList = file_exists($cenikDataFile) ? json_decode(file_get_contents($cenikDataFile), true) : [];
+              if (isset($cenikList['title']) && !isset($cenikList[0])) {
+                  $cenikList = [['id' => '1', 'title' => $cenikList['title'], 'pdf' => $cenikList['pdf'] ?? 'uploads/cenik.pdf']];
+              }
+              if (empty($cenikList)) {
+                  $cenikList = [['id' => '1', 'title' => 'Ceník Srpen', 'pdf' => 'uploads/cenik.pdf']];
+              }
+              foreach ($cenikList as $item):
+                  $title = htmlspecialchars($item['title'] ?? 'Ceník');
+                  $pdf = htmlspecialchars($item['pdf'] ?? 'uploads/cenik.pdf');
+              ?>
+              <div class="keg-wrapper" onclick="downloadKegPdf(this, '<?= $pdf ?>', '<?= $title ?>')" title="Klikněte pro stažení <?= $title ?>">
+                  <img src="images/keg_cenik.png" alt="Pivní sud Ceník" class="keg-image">
+                  <div class="keg-text-overlay">
+                      <span class="keg-title"><?= $title ?></span>
                   </div>
               </div>
-
-              <!-- Coverflow Controls -->
-              <div class="coverflow-controls">
-                  <button class="coverflow-nav" id="coverflow-prev" aria-label="Previous image">‹</button>
-                  <div class="coverflow-indicators" id="coverflow-indicators">
-                      <!-- Dots will be generated dynamically -->
-                  </div>
-                  <button class="coverflow-nav" id="coverflow-next" aria-label="Next image">›</button>
-              </div>
-
-              <!-- Fallback for when no images are available -->
-              <div class="pricing-image fallback" id="pricing-image-container" style="display: none;">
-                  <div class="no-pricing-message">
-                      <p>Ceník bude brzy dostupný.</p>
-                  </div>
-              </div>
+              <?php endforeach; ?>
           </div>
       </section>
     </div>
+
+    <script>
+    function downloadKegPdf(el, pdfUrl, title) {
+        if (!el) return;
+        el.classList.remove('keg-shake');
+        void el.offsetWidth;
+        el.classList.add('keg-shake');
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = pdfUrl || 'uploads/cenik.pdf';
+            link.download = (title || 'Cenik') + '.pdf';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, 350);
+    }
+    </script>
 
 <section id="Pujcovna" class="rental-section">
         <h2>Půjčovna</h2>
@@ -2025,7 +2217,7 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
         
         <!-- Rental Reservation Form -->
         <div class="reservation-section">
-            <h3>Rezervace půjčovny</h3>
+            <h3>Poptávka půjčovny</h3>
             <p>Chcete si půjčit naše vybavení? Vyplňte formulář níže a my se Vám ozveme s potvrzením a detaily.</p>
             
             <form id="reservation-form" class="reservation-form">
@@ -2080,7 +2272,7 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
 
 
                 <button type="submit" class="btn primary reservation-btn">
-                    <span class="btn-text">Odeslat rezervaci</span>
+                    <span class="btn-text">Odeslat poptávku</span>
                     <span class="btn-loading" style="display: none;">Odesílám...</span>
                 </button>
             </form>
@@ -2093,7 +2285,8 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
         <h2>Rozvoz</h2>
         <div class="delivery-container">
             <div class="delivery-text">
-                <p>Rozvážíme každý den od 8:00 do 19:00</p>
+                <p>Pro rozvoz nás kontaktujte na tel. <a href="tel:+420731179453" style="color: inherit; text-decoration: none;">731 179 453</a> nebo na email <a href="mailto:obchod@maxpivoteka.cz" style="color: inherit; text-decoration: none;">obchod@maxpivoteka.cz</a></p>
+                <p style="font-weight: bold; margin-top: 0.6rem; font-size: 1.25rem;">!! jeden den předem !!</p>
             </div>
             <div class="delivery-item">
                 <img src="images/dodavka2.png" alt="Rozvoz" loading="lazy" class="car-animation">
@@ -2111,9 +2304,11 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
                     </svg>
                 </div>
                 <div>
-                    <a href="tel:+420605085150">+420 605 085 150</a>
+                    <a href="tel:+420731179453">+420 731 179 453</a> <span style="font-size: 0.9rem; color: #ccc;">– Vedoucí prodejny (Marek Skořepa)</span>
                     <br>
-                    <a href="tel:+420603239703">+420 603 239 703</a>
+                    <a href="tel:+420317721341">+420 317 721 341</a> <span style="font-size: 0.9rem; color: #ccc;">– Prodejna</span>
+                    <br>
+                    <a href="tel:+420603239703">+420 603 239 703</a> <span style="font-size: 0.9rem; color: #ccc;">– Majitel (Petr Pokorný)</span>
                 </div>
             </div>
             <div class="mail">
@@ -2152,15 +2347,10 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
             </div>
         </div>
         <div class="map-opening-container">
-            <div class="opening-hours">
+            <div class="opening-hours" style="text-align: center;">
                 <h2>Otevírací doba</h2>
-                <span>Ne<span class="time">Zavřeno</span></span>
-                <span>Po<span class="time">17 - 00</span></span>
-                <span>Út<span class="time">17 - 00</span></span>
-                <span>St<span class="time">17 - 00</span></span>
-                <span>Čt<span class="time">17 - 00</span></span>
-                <span>Pá<span class="time">17 - 01</span></span>
-                <span>So<span class="time">17 - 01</span></span>
+                <div style="font-size: 1.4rem; font-weight: bold; margin-top: 1rem; color: #fff;">Po – Ne</div>
+                <div style="font-size: 1.25rem; margin-top: 0.4rem; color: #ccc;">8:00 – 19:00</div>
             </div>
             <div class="map-container">
                 <iframe 
@@ -2209,8 +2399,8 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 MAX PIVOTÉKA. All rights reserved.</p>
+    <footer style="text-align: center; padding: 2.5rem 1rem; background: transparent; color: #cbd5e1; font-family: sans-serif;">
+        <p>&copy; 2026 MAX PIVOTÉKA. Všechna práva vyhrazena. <span class="artist-signature" style="font-family: 'Caveat', cursive; font-size: 1.5rem; font-weight: 700; font-style: italic; color: #ff4d5e; margin-left: 1.2rem; display: inline-block; transform: rotate(-5deg); text-shadow: 0 0 10px rgba(255, 77, 94, 0.5); border-bottom: 2px solid #ff4d5e;">Pokorney</span></p>
     </footer>
     <script src="js/nav-visibility.js"></script>
     <script src="js/smooth-scroll.js"></script>
@@ -2674,5 +2864,30 @@ Naším cílem je nabízet kvalitní produkty, férové ceny a osobní přístup
         }
     });
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.current-year').forEach(function(el) {
+        el.textContent = new Date().getFullYear();
+    });
+});
+</script>
+
+<!-- Pop-up Announcement Modal -->
+<div id="site-popup-modal" class="site-popup-overlay" style="display: none;">
+    <div class="site-popup-card">
+        <button type="button" class="site-popup-close" onclick="closeSitePopup()">&times;</button>
+        <div id="site-popup-image-container" style="display: none;">
+            <img id="site-popup-image" src="" alt="Oznámení">
+        </div>
+        <div class="site-popup-body">
+            <h2 id="site-popup-title"></h2>
+            <p id="site-popup-text"></p>
+            <div class="site-popup-footer">
+                <button type="button" class="btn primary" onclick="closeSitePopup()">Zavřít</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

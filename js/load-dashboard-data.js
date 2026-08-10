@@ -1,50 +1,37 @@
-// Global variables for tracking data changes and polling
+
 let lastTapListData = null;
 let lastRentalListData = null;
 let lastEventsData = null;
 let pollingIntervals = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Only load data if we're on the main page (index.php), not dashboard
-    if (window.location.pathname.includes('index.php') || window.location.pathname === '/') {
+document.addEventListener('DOMContentLoaded', function() {
+    if (!window.location.pathname.includes('dashboard.php')) {
         loadTapList();
         loadRentalList();
         loadEvents();
-        loadPriceListImages();
+        loadCenik();
         loadGalleryImages();
         startRealTimePolling();
     }
-});
-
-// Start independent polling for each section
-function startRealTimePolling() {
-    // Poll tap list every 10 seconds
+});
+function startRealTimePolling() {
     pollingIntervals.tapList = setInterval(async () => {
         await pollTapList();
-    }, 10000);
-    
-    // Poll rental list every 10 seconds
+    }, 10000);
     pollingIntervals.rentalList = setInterval(async () => {
         await pollRentalList();
-    }, 10000);
-    
-    // Poll events every 10 seconds
+    }, 10000);
     pollingIntervals.events = setInterval(async () => {
         await pollEvents();
     }, 10000);
-}
-
-// Stop all polling (useful for cleanup)
+}
 function stopRealTimePolling() {
     Object.values(pollingIntervals).forEach(interval => {
         if (interval) clearInterval(interval);
     });
     pollingIntervals = {};
-}
-
-// Show notification to user
-function showUpdateNotification(sectionName) {
-    // Create notification element
+}
+function showUpdateNotification(sectionName) {
     const notification = document.createElement('div');
     notification.className = 'update-notification';
     notification.innerHTML = `
@@ -52,9 +39,7 @@ function showUpdateNotification(sectionName) {
             <span class="notification-icon">🔄</span>
             <span class="notification-text">${sectionName} byl aktualizován</span>
         </div>
-    `;
-    
-    // Add styles
+    `;
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -69,9 +54,7 @@ function showUpdateNotification(sectionName) {
         font-size: 14px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         animation: slideInRight 0.3s ease-out;
-    `;
-    
-    // Add animation styles to document if not already added
+    `;
     if (!document.getElementById('notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -106,12 +89,8 @@ function showUpdateNotification(sectionName) {
             }
         `;
         document.head.appendChild(style);
-    }
-    
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Remove after 3 seconds
+    }
+    document.body.appendChild(notification);
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease-in';
         setTimeout(() => {
@@ -120,14 +99,10 @@ function showUpdateNotification(sectionName) {
             }
         }, 300);
     }, 3000);
-}
-
-// Compare data to detect changes
+}
 function hasDataChanged(oldData, newData) {
     return JSON.stringify(oldData) !== JSON.stringify(newData);
-}
-
-// Poll tap list for changes
+}
 async function pollTapList() {
     try {
         const response = await fetch('get_taplist.php?t=' + Date.now());
@@ -143,9 +118,7 @@ async function pollTapList() {
     } catch (error) {
         console.log('Error polling tap list:', error);
     }
-}
-
-// Poll rental list for changes
+}
 async function pollRentalList() {
     try {
         const response = await fetch('get_rentallist.php?t=' + Date.now());
@@ -161,9 +134,7 @@ async function pollRentalList() {
     } catch (error) {
         console.log('Error polling rental list:', error);
     }
-}
-
-// Poll events for changes
+}
 async function pollEvents() {
     try {
         const response = await fetch('get_events.php?t=' + Date.now());
@@ -179,9 +150,7 @@ async function pollEvents() {
     } catch (error) {
         console.log('Error polling events:', error);
     }
-}
-
-// Initial load functions
+}
 async function loadTapList() {
     console.log('loadTapList called');
     try {
@@ -224,9 +193,7 @@ async function loadEvents() {
     } catch (error) {
         console.log('Could not load events:', error);
     }
-}
-
-// Load gallery images dynamically
+}
 async function loadGalleryImages() {
     try {
         const response = await fetch('get_gallery_images.php');
@@ -236,54 +203,65 @@ async function loadGalleryImages() {
                 updateGallery(galleryData.images);
                 return;
             }
-        }
-        
-        // If no images found, keep the default static gallery
+        }
         console.log('No gallery images found, keeping static gallery');
         
     } catch (error) {
-        console.log('Could not load gallery images:', error);
-        // On error, keep the default static gallery
+        console.log('Could not load gallery images:', error);
     }
-}
-
-// Load price list images dynamically
-async function loadPriceListImages() {
+}
+async function loadCenik() {
     try {
-        const pricingContainer = document.getElementById('pricing-image-container');
-        
-        // Try to get all images from the cenik folder
-        const cenikResponse = await fetch('get_cenik_images.php');
-        if (cenikResponse.ok) {
-            const cenikData = await cenikResponse.json();
-            if (cenikData.images && cenikData.images.length > 0) {
-                updatePriceListImages(cenikData.images);
+        const response = await fetch('get_cenik.php?t=' + Date.now());
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.getElementById('keg-pricing-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            let cenikItems = Array.isArray(data) ? data : (data.title ? [data] : []);
+
+            if (cenikItems.length === 0) {
+                container.innerHTML = '<p style="color: #94a3b8; padding: 20px; font-size: 1.1rem;">Žádný ceník není k dispozici.</p>';
                 return;
             }
+
+            cenikItems.forEach(item => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'keg-wrapper';
+                wrapper.title = 'Klikněte pro stažení ' + (item.title || 'ceníku');
+
+                wrapper.innerHTML = `
+                    <img src="images/keg_cenik.png" alt="Pivní sud Ceník" class="keg-image">
+                    <div class="keg-text-overlay">
+                        <span class="keg-title">${item.title || 'Ceník'}</span>
+                    </div>
+                `;
+
+                wrapper.onclick = function() {
+                    wrapper.classList.remove('keg-shake');
+                    void wrapper.offsetWidth; // trigger reflow
+                    wrapper.classList.add('keg-shake');
+                    setTimeout(() => {
+                        const pdfUrl = item.pdf || 'uploads/cenik.pdf';
+                        const link = document.createElement('a');
+                        link.href = pdfUrl;
+                        link.download = (item.title || 'Cenik') + '.pdf';
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }, 350);
+                };
+
+                container.appendChild(wrapper);
+            });
         }
-        
-        // If no images found at all, show nothing (empty container)
-        pricingContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Žádný ceník není k dispozici</p>';
-        
     } catch (error) {
-        console.log('Could not load price list images:', error);
-        // On error, show nothing
-        const pricingContainer = document.getElementById('pricing-image-container');
-        if (pricingContainer) {
-            pricingContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Ceník se nepodařilo načíst</p>';
-        }
+        console.log('Error loading cenik:', error);
     }
-}
-
-// Render multiple price list images in the pricing container
-function updatePriceListImages(images) {
-    const pricingContainer = document.getElementById('pricing-image-container');
-    if (!pricingContainer || !images || images.length === 0) return;
-
-    // Clear existing content
-    pricingContainer.innerHTML = '';
-
-    // Create image elements for each price list image
+}
     images.forEach(img => {
         const imgElement = document.createElement('img');
         imgElement.src = `images/cenik/${img}`;
@@ -296,12 +274,8 @@ function updatePriceListImages(images) {
 function updateTapListTable(tapData) {
     const tbody = document.querySelector('#Prave-na-cepu .tap-list tbody');
 
-    if (!tbody || !tapData || tapData.length === 0) return;
-
-    // Clear existing rows
-    tbody.innerHTML = '';
-
-    // Add new rows from dashboard data
+    if (!tbody || !tapData || tapData.length === 0) return;
+    tbody.innerHTML = '';
     tapData.forEach((tap, index) => {
         if (tap.brewery || tap.beer) { // Only show rows with data
             const row = document.createElement('tr');
@@ -327,16 +301,11 @@ function updateRentalListTable(rentalData) {
         return;
     }
 
-    if (!tbody) return;
-
-    // Clear existing rows
-    tbody.innerHTML = '';
-
-    // Check if we're on dashboard.php (has image column) or index.php (has image column too now)
+    if (!tbody) return;
+    tbody.innerHTML = '';
     const isDashboard = window.location.pathname.includes('dashboard.php');
 
-    if (isDashboard) {
-        // Dashboard: Show all rows for editing (no filtering/renumbering)
+    if (isDashboard) {
         if (rentalSection) rentalSection.style.display = '';
         
         rentalData.forEach((rental, index) => {
@@ -357,8 +326,7 @@ function updateRentalListTable(rentalData) {
                 tbody.appendChild(row);
             }
         });
-    } else {
-        // Frontend (index.php): Filter and renumber visible rows only
+    } else {
         const visibleRentals = rentalData.filter(rental => rental.desc1 || rental.desc2); // Stricter: only if key descriptions present
         
         if (visibleRentals.length === 0) {
@@ -366,9 +334,7 @@ function updateRentalListTable(rentalData) {
             return;
         } else {
             if (rentalSection) rentalSection.style.display = '';
-        }
-        
-        // Populate rental item select with only visible items
+        }
         const rentalSelect = document.getElementById('rental_item');
         if (rentalSelect) {
             let options = '<option value="">Vyberte předmět</option>';
@@ -402,12 +368,8 @@ function updateRentalListTable(rentalData) {
 
 function updateGallery(galleryImages) {
     const galleryContainer = document.querySelector('#Galerie .gallery-container');
-    if (!galleryContainer || !galleryImages || galleryImages.length === 0) return;
-
-    // Clear existing gallery items
-    galleryContainer.innerHTML = '';
-
-    // Add new gallery items
+    if (!galleryContainer || !galleryImages || galleryImages.length === 0) return;
+    galleryContainer.innerHTML = '';
     galleryImages.forEach((img, index) => {
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
@@ -416,61 +378,45 @@ function updateGallery(galleryImages) {
             <img src="images/gallery/${img}" alt="Galerie ${index + 1}" loading="lazy">
         `;
         galleryContainer.appendChild(galleryItem);
-    });
-    
-    // Reinitialize gallery effects after updating
+    });
     if (typeof initializeGalleryEffects === 'function') {
         initializeGalleryEffects();
     }
 }
 
 function updateEvents(eventsData) {
+    const eventsSection = document.getElementById('Akce');
     const eventsContainer = document.querySelector('#Akce .events-container');
 
-    if (!eventsContainer || !eventsData || eventsData.length === 0) return;
+    const validEvents = Array.isArray(eventsData) ? eventsData.filter(event => (event.title && event.title.trim()) || (event.description && event.description.trim())) : [];
 
-    // Get existing event cards
-    const existingCards = eventsContainer.querySelectorAll('.event-card');
-    
-    // Update or create events based on data
-    eventsData.forEach((event, index) => {
-        if (event.title || event.description) { // Only show events with data
-            let eventCard = existingCards[index];
-            
-            if (eventCard) {
-                // Update existing card
-                const dateElement = eventCard.querySelector('.event-date');
-                const titleElement = eventCard.querySelector('h3');
-                const descriptionElement = eventCard.querySelector('p');
-                
-                if (dateElement) dateElement.textContent = event.date || '';
-                if (titleElement) titleElement.textContent = event.title || '';
-                if (descriptionElement) descriptionElement.textContent = event.description || '';
-            } else {
-                // Create new card if it doesn't exist
-                eventCard = document.createElement('div');
-                eventCard.className = 'event-card';
-                
-                eventCard.innerHTML = `
-                    <div class="event-date">${event.date || ''}</div>
-                    <h3>${event.title || ''}</h3>
-                    <p>${event.description || ''}</p>
-                `;
-                eventsContainer.appendChild(eventCard);
-            }
-        }
-    });
-    
-    // Remove extra cards if there are more existing cards than data
-    for (let i = eventsData.length; i < existingCards.length; i++) {
-        if (existingCards[i]) {
-            existingCards[i].remove();
-        }
+    if (validEvents.length === 0) {
+        if (eventsSection) eventsSection.style.display = 'none';
+        const navLink = document.querySelector('.nav-links a[href="#Akce"]');
+        if (navLink) navLink.style.display = 'none';
+        return;
     }
+
+    if (eventsSection) eventsSection.style.display = '';
+    const navLink = document.querySelector('.nav-links a[href="#Akce"]');
+    if (navLink) navLink.style.display = '';
+
+    if (!eventsContainer) return;
+
+    eventsContainer.innerHTML = '';
+    validEvents.forEach(event => {
+        const eventCard = document.createElement('div');
+        eventCard.className = 'event-card';
+        eventCard.innerHTML = `
+            <div class="event-date">${event.date || ''}</div>
+            <h3>${event.title || ''}</h3>
+            <p>${event.description || ''}</p>
+        `;
+        eventsContainer.appendChild(eventCard);
+    });
 }
 
-function getDefaultRentalImage(index) {
-    // Default images for rental items - now in rental directory
+function getDefaultRentalImage(index) {
     const defaultImages = [
         'images/rental/grill.png',
         'images/rental/pípa.png', 
@@ -479,3 +425,71 @@ function getDefaultRentalImage(index) {
     ];
     return defaultImages[index] || 'images/rental/grill.png';
 }
+
+
+// Check and render site popup announcement
+async function checkAndDisplayPopup() {
+    try {
+        const response = await fetch('get_popup.php?t=' + Date.now());
+        if (!response.ok) return;
+
+        const popup = await response.json();
+        if (!popup || !popup.active) return;
+
+        const now = new Date();
+
+        // Check start date/time constraint
+        if (popup.start_datetime) {
+            const startDate = new Date(popup.start_datetime);
+            if (now < startDate) return;
+        }
+
+        // Check end date/time constraint
+        if (popup.end_datetime) {
+            const endDate = new Date(popup.end_datetime);
+            if (now > endDate) return;
+        }
+
+        // Check if user has already dismissed this specific popup in current session
+        const popupKey = 'dismissed_popup_' + (popup.updated_at || popup.title || 'active');
+        if (sessionStorage.getItem(popupKey)) return;
+
+        const modal = document.getElementById('site-popup-modal');
+        const titleEl = document.getElementById('site-popup-title');
+        const textEl = document.getElementById('site-popup-text');
+        const imgContainer = document.getElementById('site-popup-image-container');
+        const imgEl = document.getElementById('site-popup-image');
+
+        if (!modal) return;
+
+        if (titleEl) titleEl.textContent = popup.title || 'Oznámení';
+        if (textEl) textEl.textContent = popup.text || '';
+
+        if (popup.image) {
+            if (imgEl) imgEl.src = popup.image;
+            if (imgContainer) imgContainer.style.display = 'block';
+        } else {
+            if (imgContainer) imgContainer.style.display = 'none';
+        }
+
+        modal.style.display = 'flex';
+        window.currentPopupKey = popupKey;
+    } catch (e) {
+        console.log('Error loading popup:', e);
+    }
+}
+
+function closeSitePopup() {
+    const modal = document.getElementById('site-popup-modal');
+    if (modal) modal.style.display = 'none';
+    if (window.currentPopupKey) {
+        sessionStorage.setItem(window.currentPopupKey, 'true');
+    }
+}
+
+// Automatically check popup on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    if (!window.location.pathname.includes('dashboard.php')) {
+        checkAndDisplayPopup();
+    }
+});

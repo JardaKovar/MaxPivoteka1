@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <circle cx="256" cy="256" r="248" fill="#222222" />
+  <circle cx="256" cy="256" r="238" fill="none" stroke="#ffffff" stroke-width="12" />
+  <circle cx="256" cy="256" r="222" fill="none" stroke="#ffffff" stroke-width="5" />
+  
+  <!-- Pint glass outline -->
+  <path d="M 90 125 L 205 125 C 205 125 200 300 188 385 C 180 395 115 395 107 385 C 95 300 90 125 90 125 Z" fill="none" stroke="#ffffff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" />
+  
+  <!-- Vertical MAX text inside pint glass -->
+  <g transform="translate(148, 255) rotate(-90)">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Arial Black', sans-serif" font-weight="900" font-size="76" letter-spacing="3">MAX</text>
+  </g>
+  
+  <!-- Text 'beer' -->
+  <text x="212" y="240" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="132" letter-spacing="-3">beer</text>
+  
+  <!-- Text 'BAR' -->
+  <text x="212" y="385" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="152" letter-spacing="-2">BAR</text>
+</svg>

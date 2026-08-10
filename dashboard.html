@@ -1,14 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard - MAX PIVOTÉKA</title>
-    <link rel="stylesheet" href="css/dashboard.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0, minimum-scale=1.0" />
+    <title>MaxDashboard - MAX PIVOTÉKA</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css?v=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MaxDashboard">
 </head>
 <body>
     <!-- Loading Screen -->
-    <div id="loading-screen">
+    <div id="loading-screen" style="display:none;">
         <div class="loading-content">
             <img src="images/logo2.png" alt="MAX PIVOTÉKA" class="loading-logo">
             <div class="loading-spinner"></div>
@@ -17,540 +28,1184 @@
 
     <header>
         <div class="header-left">
-            <h1>DashboardMax - Edit Website Content</h1>
+            <div class="brand-badge"><i class="fa-solid fa-beer-mug-empty"></i> MAX PIVOTÉKA</div>
+            <h1>MaxDashboard <span>Administrace</span></h1>
         </div>
         <div class="header-right">
             <div class="user-info">
                 <div class="user-details">
-                    <span class="username" id="current-username">MaxP</span>
-                    <span class="login-time" id="login-time">Logged in: --:--</span>
+                    <span class="username"><i class="fa-solid fa-user-shield"></i> MaxP</span>
+                    <span class="login-time"><i class="fa-regular fa-clock"></i> Přihlášeno: Přihlášen</span>
                 </div>
                 <div class="user-actions">
-                    <button class="btn-secondary" onclick="toggleActivityLog()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14,2 14,8 20,8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10,9 9,9 8,9"></polyline>
-                        </svg>
-                        Activity Log
-                    </button>
-                    <a href="index.php" target="_blank" class="btn-secondary">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15,3 21,3 21,9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        View Website
-                    </a>
-                    <a href="login.php?logout=1" class="btn-logout">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                            <polyline points="16,17 21,12 16,7"></polyline>
-                            <line x1="21" y1="12" x2="9" y2="12"></line>
-                        </svg>
-                        Logout
-                    </a>
+                    <a href="index.php" target="_blank" class="btn-secondary"><i class="fa-solid fa-arrow-up-right-from-square"></i> Zobrazit Web</a>
+                    
+                    <button id="activity-log-btn" class="btn-secondary"><i class="fa-solid fa-clock-rotate-left"></i> Historie aktivity</button>
+                    
+                    <a href="login.php?logout=1" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Odhlásit se</a>
                 </div>
             </div>
         </div>
     </header>
 
+    <main>
+        <section id="edit-tap-list">
+            <h2><i class="fa-solid fa-beer-mug-empty"></i> Úprava "Právě na čepu"</h2>
+            <form id="tap-form" method="post" action="save_taplist.php">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Číslo</th>
+                                <th>Pivovar</th>
+                                <th>Pivo</th>
+                                <th>Alk. %</th>
+                                <th>EPM</th>
+                                <th>0,5l (Kč)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[0][number]" value="1"></td>
+                                <td><input type="text" name="taplist[0][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[0][beer]" value=""></td>
+                                <td><input type="text" name="taplist[0][alc]" value=""></td>
+                                <td><input type="text" name="taplist[0][epm]" value=""></td>
+                                <td><input type="text" name="taplist[0][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[1][number]" value="2"></td>
+                                <td><input type="text" name="taplist[1][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[1][beer]" value=""></td>
+                                <td><input type="text" name="taplist[1][alc]" value=""></td>
+                                <td><input type="text" name="taplist[1][epm]" value=""></td>
+                                <td><input type="text" name="taplist[1][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[2][number]" value="3"></td>
+                                <td><input type="text" name="taplist[2][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[2][beer]" value=""></td>
+                                <td><input type="text" name="taplist[2][alc]" value=""></td>
+                                <td><input type="text" name="taplist[2][epm]" value=""></td>
+                                <td><input type="text" name="taplist[2][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[3][number]" value="4"></td>
+                                <td><input type="text" name="taplist[3][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[3][beer]" value=""></td>
+                                <td><input type="text" name="taplist[3][alc]" value=""></td>
+                                <td><input type="text" name="taplist[3][epm]" value=""></td>
+                                <td><input type="text" name="taplist[3][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[4][number]" value="5"></td>
+                                <td><input type="text" name="taplist[4][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[4][beer]" value=""></td>
+                                <td><input type="text" name="taplist[4][alc]" value=""></td>
+                                <td><input type="text" name="taplist[4][epm]" value=""></td>
+                                <td><input type="text" name="taplist[4][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[5][number]" value="6"></td>
+                                <td><input type="text" name="taplist[5][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[5][beer]" value=""></td>
+                                <td><input type="text" name="taplist[5][alc]" value=""></td>
+                                <td><input type="text" name="taplist[5][epm]" value=""></td>
+                                <td><input type="text" name="taplist[5][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[6][number]" value="7"></td>
+                                <td><input type="text" name="taplist[6][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[6][beer]" value=""></td>
+                                <td><input type="text" name="taplist[6][alc]" value=""></td>
+                                <td><input type="text" name="taplist[6][epm]" value=""></td>
+                                <td><input type="text" name="taplist[6][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[7][number]" value="8"></td>
+                                <td><input type="text" name="taplist[7][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[7][beer]" value=""></td>
+                                <td><input type="text" name="taplist[7][alc]" value=""></td>
+                                <td><input type="text" name="taplist[7][epm]" value=""></td>
+                                <td><input type="text" name="taplist[7][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[8][number]" value="9"></td>
+                                <td><input type="text" name="taplist[8][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[8][beer]" value=""></td>
+                                <td><input type="text" name="taplist[8][alc]" value=""></td>
+                                <td><input type="text" name="taplist[8][epm]" value=""></td>
+                                <td><input type="text" name="taplist[8][price_05l]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="taplist[9][number]" value="10"></td>
+                                <td><input type="text" name="taplist[9][brewery]" value=""></td>
+                                <td><input type="text" name="taplist[9][beer]" value=""></td>
+                                <td><input type="text" name="taplist[9][alc]" value=""></td>
+                                <td><input type="text" name="taplist[9][epm]" value=""></td>
+                                <td><input type="text" name="taplist[9][price_05l]" value=""></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit čepovaný lístek</button>
+            </form>
+        </section>
+
+        <section id="edit-rental-list">
+            <h2><i class="fa-solid fa-boxes-packing"></i> Úprava "Půjčovna"</h2>
+            
+            <!-- Rental Image Management -->
+            <div class="sub-card">
+                <h3><i class="fa-solid fa-images"></i> Správa obrázků půjčovny</h3>
+                
+                <!-- Upload Form -->
+                <form id="rental-upload-form" method="post" action="rental_upload.php" enctype="multipart/form-data" class="upload-box">
+                    <label for="rental-files"><i class="fa-solid fa-cloud-arrow-up"></i> Nahrát obrázky půjčovny (více najednou):</label>
+                    <div class="upload-controls">
+                        <input type="file" id="rental-files" name="rental_files[]" multiple accept="image/*">
+                        <button type="submit" class="btn-secondary"><i class="fa-solid fa-upload"></i> Nahrát obrázky</button>
+                    </div>
+                </form>
+                
+                <!-- Delete Form -->
+                <form id="rental-delete-form" method="post" action="rental_delete.php">
+                    <h4>Dostupné obrázky</h4>
+                    <div class="rental-images">
+                        <option value="">-- Vyberte obrázek smazání --</option>
+                    </div>
+                    
+                </form>
+            </div>
+
+            <!-- Rental List Form -->
+            <form id="rental-form" method="post" action="save_rentallist.php">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Číslo</th>
+                                <th>Název 1</th>
+                                <th>Obrázek</th>
+                                <th>Detail 2</th>
+                                <th>Kauce</th>
+                                <th>Den</th>
+                                <th>Víkend</th>
+                                <th>Týden</th>
+                                <th>Měsíc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[0][number]" value="1"></td>
+                                <td><input type="text" name="rentallist[0][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[0][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[0][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[0][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[0][day]" value=""></td>
+                                <td><input type="text" name="rentallist[0][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[0][week]" value=""></td>
+                                <td><input type="text" name="rentallist[0][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[1][number]" value="2"></td>
+                                <td><input type="text" name="rentallist[1][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[1][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[1][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[1][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[1][day]" value=""></td>
+                                <td><input type="text" name="rentallist[1][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[1][week]" value=""></td>
+                                <td><input type="text" name="rentallist[1][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[2][number]" value="3"></td>
+                                <td><input type="text" name="rentallist[2][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[2][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[2][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[2][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[2][day]" value=""></td>
+                                <td><input type="text" name="rentallist[2][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[2][week]" value=""></td>
+                                <td><input type="text" name="rentallist[2][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[3][number]" value="4"></td>
+                                <td><input type="text" name="rentallist[3][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[3][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[3][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[3][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[3][day]" value=""></td>
+                                <td><input type="text" name="rentallist[3][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[3][week]" value=""></td>
+                                <td><input type="text" name="rentallist[3][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[4][number]" value="5"></td>
+                                <td><input type="text" name="rentallist[4][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[4][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[4][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[4][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[4][day]" value=""></td>
+                                <td><input type="text" name="rentallist[4][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[4][week]" value=""></td>
+                                <td><input type="text" name="rentallist[4][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[5][number]" value="6"></td>
+                                <td><input type="text" name="rentallist[5][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[5][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[5][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[5][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[5][day]" value=""></td>
+                                <td><input type="text" name="rentallist[5][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[5][week]" value=""></td>
+                                <td><input type="text" name="rentallist[5][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[6][number]" value="7"></td>
+                                <td><input type="text" name="rentallist[6][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[6][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[6][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[6][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[6][day]" value=""></td>
+                                <td><input type="text" name="rentallist[6][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[6][week]" value=""></td>
+                                <td><input type="text" name="rentallist[6][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[7][number]" value="8"></td>
+                                <td><input type="text" name="rentallist[7][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[7][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[7][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[7][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[7][day]" value=""></td>
+                                <td><input type="text" name="rentallist[7][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[7][week]" value=""></td>
+                                <td><input type="text" name="rentallist[7][month]" value=""></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="number" name="rentallist[8][number]" value="9"></td>
+                                <td><input type="text" name="rentallist[8][desc1]" value=""></td>
+                                <td>
+                                    <select name="rentallist[8][image]">
+                                        <option value="">Vybrat obrázek</option>
+                                        <option value="">-- Vyberte obrázek --</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="rentallist[8][desc2]" value=""></td>
+                                <td><input type="text" name="rentallist[8][deposit]" value=""></td>
+                                <td><input type="text" name="rentallist[8][day]" value=""></td>
+                                <td><input type="text" name="rentallist[8][weekend]" value=""></td>
+                                <td><input type="text" name="rentallist[8][week]" value=""></td>
+                                <td><input type="text" name="rentallist[8][month]" value=""></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit ceník půjčovny</button>
+            </form>
+        </section>
+
+        <section id="edit-events">
+            <h2><i class="fa-solid fa-calendar-days"></i> Úprava "Akce"</h2>
+            <form id="events-form" method="post" action="save_events.php" style="margin-bottom: 2rem;">
+                <div class="events-grid" id="events-grid-container" style="margin-bottom: 1.5rem;">
+                    <div class="event-edit-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <h3><i class="fa-solid fa-calendar-days"></i> Akce #1</h3>
+                            <button type="button" onclick="removeEventCard(this)" class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                <i class="fa-solid fa-trash"></i> Smazat akci
+                            </button>
+                        </div>
+
+                        <label>Datum:</label>
+                        <input type="text" name="events[0][date]" placeholder="např. 24.12." maxlength="10" value="">
+                        
+                        <label style="margin-top: 0.8rem;">Název akce:</label>
+                        <input type="text" name="events[0][title]" placeholder="Název události" maxlength="100" value="">
+                        
+                        <label style="margin-top: 0.8rem;">Popis:</label>
+                        <textarea name="events[0][description]" rows="4" placeholder="Popis akce..." maxlength="500"></textarea>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit akce</button>
+                    <button type="button" onclick="addEventCard()" class="btn-primary"><i class="fa-solid fa-plus"></i> Přidat další akci</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="edit-gallery">
+            <h2><i class="fa-solid fa-photo-film"></i> Úprava Galerie</h2>
+            <form id="gallery-upload-form" method="post" action="gallery_upload.php" enctype="multipart/form-data" class="upload-box">
+                <label for="gallery-files"><i class="fa-solid fa-cloud-arrow-up"></i> Nahrát fotky (více najednou):</label>
+                <div class="upload-controls">
+                    <input type="file" id="gallery-files" name="gallery_files[]" multiple accept="image/*">
+                    <button type="submit" class="btn-secondary"><i class="fa-solid fa-upload"></i> Nahrát fotky</button>
+                </div>
+            </form>
+            
+            <form id="gallery-delete-form" method="post" action="gallery_delete.php">
+                <h3>Smazat fotky z galerie</h3>
+                <div class="gallery-images">
+                    <option value="">-- Vyberte obrázek smazání --</option>
+                </div>
+                
+            </form>
+        </section>
+
+        <section id="cenik-management">
+            <h2><i class="fa-solid fa-file-pdf"></i> Správa Ceníků</h2>
+            
+            
+            <form id="save-all-cenik-form" method="post" action="save_cenik.php" enctype="multipart/form-data" style="margin-bottom: 2rem;">
+                <input type="hidden" name="action" value="save_all">
+                
+                <div class="events-grid" style="margin-bottom: 1.5rem;">
+                    
+            <div class="cenik-item-card" data-id="1">
+                <div class="cenik-card-header">
+                    <h4>Ceník #1</h4>
+                </div>
+                <div class="cenik-card-body">
+                    <div class="form-group">
+                        <label>Název ceníku (zobrazí se na sudu):</label>
+                        <input type="text" name="cenik[1][title]" value="Ceník" placeholder="Např. Ceník Srpen, Nápoje..." class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Aktuální PDF soubor:</label>
+                        <p class="current-pdf-file">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <a href="uploads/cenik.pdf" target="_blank">cenik.pdf</a>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label>Nahrát nový PDF soubor (nahradí stávající):</label>
+                        <input type="file" name="cenik_pdf_1" accept=".pdf" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit ceníky</button>
+                    <button type="submit" form="add-new-form" class="btn-secondary"><i class="fa-solid fa-plus"></i> Přidat další ceník</button>
+                </div>
+            </form>
+
+            
+
+            <form id="add-new-form" method="post" action="save_cenik.php" style="display:none;">
+                <input type="hidden" name="action" value="add">
+            </form>
+        </section>
+
+        <!-- Reservation Management Section -->
+        <section id="reservation-management">
+            <h2>Správa poptávek</h2>
+            <div class="reservation-stats">
+                <div class="stat-card">
+                    <h3>Celkem poptávek</h3>
+                    <span id="total-reservations">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Čekající na potvrzení</h3>
+                    <span id="pending-reservations">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Potvrzené</h3>
+                    <span id="confirmed-reservations">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Zrušené</h3>
+                    <span id="cancelled-reservations">0</span>
+                </div>
+            </div>
+            
+            <div class="reservation-controls">
+                <button onclick="loadReservations()" class="btn-secondary">Obnovit seznam</button>
+                <select id="status-filter" onchange="filterReservations()">
+                    <option value="">Všechny stavy</option>
+                    <option value="pending">Čekající</option>
+                    <option value="confirmed">Potvrzené</option>
+                    <option value="cancelled">Zrušené</option>
+                </select>
+            </div>
+
+            <div class="reservations-container">
+                <div id="reservations-loading" style="display: none; text-align: center; padding: 2rem;">
+                    <p>Načítání rezervací...</p>
+                </div>
+                <div id="reservations-list">
+                    <!-- Reservations will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        
+    
+        
+    <section id="edit-popup">
+            <h2><i class="fa-solid fa-bullhorn"></i> Správa Pop-up Oznámení (Vyskakovací okno na webu)</h2>
+            <form id="popup-form" method="post" action="save_popup.php" enctype="multipart/form-data">
+                <div class="event-edit-card" style="margin-bottom: 1.5rem;">
+                    
+                    <label class="popup-toggle-wrapper" for="popup_active_html" style="margin-bottom: 1.25rem;">
+                        <span class="toggle-switch">
+                            <input type="checkbox" id="popup_active_html" name="active" value="1" onchange="updatePopupToggleLabel(this)">
+                            <span class="toggle-slider"></span>
+                        </span>
+                        <span class="toggle-label-text" id="popup_toggle_label_html">Zapnout pop-up vyskakovací okno na webu</span>
+                    </label>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Nadpis oznámení:</label>
+                        <input type="text" id="popup_title_input" name="title" value="" placeholder="např. Mimořádná otevírací doba / Důležité upozornění" style="width: 100%;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Text oznámení:</label>
+                        <textarea id="popup_text_input" name="text" rows="4" placeholder="Napište zprávu pro návštěvníky webu..." style="width: 100%;"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-clock"></i> Datum a čas spuštění (Platí OD):</label>
+                            <input type="datetime-local" id="popup_start_input" name="start_datetime" value="" style="width: 100%;">
+                            <small style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px; display: block;">Ponechte prázdné pro okamžité spuštění</small>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-hourglass-end"></i> Datum a čas ukončení (Platí DO):</label>
+                            <input type="datetime-local" id="popup_end_input" name="end_datetime" value="" style="width: 100%;">
+                            <small style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px; display: block;">Ponechte prázdné bez časového omezení</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-image"></i> Volitelná fotka / banner k oznámení (nepovinné):</label>
+                        <input type="file" name="popup_image" accept="image/*" style="font-size: 0.85rem; color: #ccc;">
+                        <div id="popup_image_preview_box" style="display: none; margin-top: 0.8rem; align-items: center; gap: 1rem; background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px;">
+                            <img id="popup_current_image_img" src="" alt="Pop-up obrázek" style="max-height: 80px; border-radius: 6px; border: 1px solid #475569;">
+                            <label style="display: inline-flex; align-items: center; gap: 0.4rem; color: #ef4444; cursor: pointer; font-size: 0.9rem;">
+                                <input type="checkbox" name="remove_image" value="1"> Smazat současnou fotku
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Uložit pop-up oznámení</button>
+            </form>
+        </section>
+</main>
+
     <!-- Activity Log Modal -->
-    <div id="activity-log-modal" class="modal">
+    
+    <div id="activity-log-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Activity Log & Change History</h2>
-                <button class="modal-close" onclick="toggleActivityLog()">&times;</button>
+                <h2>Activity Log History</h2>
+                <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="log-tabs">
-                    <button class="tab-btn active" onclick="showLogTab('recent')">Recent Activities</button>
-                    <button class="tab-btn" onclick="showLogTab('sessions')">Login Sessions</button>
-                    <button class="tab-btn" onclick="showLogTab('changes')">Content Changes</button>
+                    <button id="log-type-sessions" class="tab-btn active">Login/Logout</button>
+                    <button id="log-type-changes" class="tab-btn">Changes</button>
                 </div>
                 
-                <div id="recent-tab" class="tab-content active">
+                <!-- Login/Logout Tab Content -->
+                <div id="tab-sessions" class="tab-content active">
                     <div class="log-section">
-                        <h3>Recent Activities</h3>
-                        <div id="recent-activities" class="activity-list">
-                            <!-- Activities will be loaded here -->
+                        <h3>Login/Logout History</h3>
+                        <div id="logs-content-sessions" class="activity-list">
+                            <p>Loading login/logout logs...</p>
+                        </div>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                            <button onclick="loadActivityLogs('sessions')" class="btn-secondary">Refresh Logs</button>
+                            <button onclick="clearActivityLogs()" class="btn-logout">Clear History</button>
                         </div>
                     </div>
                 </div>
                 
-                <div id="sessions-tab" class="tab-content">
+                <!-- Changes Tab Content -->
+                <div id="tab-changes" class="tab-content">
                     <div class="log-section">
-                        <h3>Login Sessions</h3>
-                        <div id="login-sessions" class="activity-list">
-                            <!-- Sessions will be loaded here -->
+                        <h3>Content Changes History</h3>
+                        <div id="logs-content-changes" class="activity-list">
+                            <p>Loading content changes logs...</p>
                         </div>
-                    </div>
-                </div>
-                
-                <div id="changes-tab" class="tab-content">
-                    <div class="log-section">
-                        <h3>Content Changes</h3>
-                        <div id="content-changes" class="activity-list">
-                            <!-- Changes will be loaded here -->
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                            <button onclick="loadActivityLogs('changes')" class="btn-secondary">Refresh Logs</button>
+                            <button onclick="clearActivityLogs()" class="btn-logout">Clear History</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
-    <main>
-        <section id="edit-tap-list">
-            <h2>Edit "Právě na čepu" Tap List</h2>
-            <form id="tap-form" method="post" action="save_taplist.php" novalidate>
-                <table border="1" cellpadding="5" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>NUMBER</th>
-                            <th>BREWERY</th>
-                            <th>BEER</th>
-                            <th>ALC. %</th>
-                            <th>EPM</th>
-                            <th>IBU</th>
-                            <th>EBC</th>
-                            <th>0,5L (KČ)</th>
-                            <th>0,3L (KČ)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><input type="text" name="taplist[0][brewery]"></td>
-                            <td><input type="text" name="taplist[0][beer]"></td>
-                            <td><input type="text" name="taplist[0][alc]"></td>
-                            <td><input type="text" name="taplist[0][epm]"></td>
-                            <td><input type="text" name="taplist[0][ibu]"></td>
-                            <td><input type="text" name="taplist[0][ebc]"></td>
-                            <td><input type="text" name="taplist[0][price_05l]"></td>
-                            <td><input type="text" name="taplist[0][price_03l]"></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><input type="text" name="taplist[1][brewery]"></td>
-                            <td><input type="text" name="taplist[1][beer]"></td>
-                            <td><input type="text" name="taplist[1][alc]"></td>
-                            <td><input type="text" name="taplist[1][epm]"></td>
-                            <td><input type="text" name="taplist[1][ibu]"></td>
-                            <td><input type="text" name="taplist[1][ebc]"></td>
-                            <td><input type="text" name="taplist[1][price_05l]"></td>
-                            <td><input type="text" name="taplist[1][price_03l]"></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><input type="text" name="taplist[2][brewery]"></td>
-                            <td><input type="text" name="taplist[2][beer]"></td>
-                            <td><input type="text" name="taplist[2][alc]"></td>
-                            <td><input type="text" name="taplist[2][epm]"></td>
-                            <td><input type="text" name="taplist[2][ibu]"></td>
-                            <td><input type="text" name="taplist[2][ebc]"></td>
-                            <td><input type="text" name="taplist[2][price_05l]"></td>
-                            <td><input type="text" name="taplist[2][price_03l]"></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td><input type="text" name="taplist[3][brewery]"></td>
-                            <td><input type="text" name="taplist[3][beer]"></td>
-                            <td><input type="text" name="taplist[3][alc]"></td>
-                            <td><input type="text" name="taplist[3][epm]"></td>
-                            <td><input type="text" name="taplist[3][ibu]"></td>
-                            <td><input type="text" name="taplist[3][ebc]"></td>
-                            <td><input type="text" name="taplist[3][price_05l]"></td>
-                            <td><input type="text" name="taplist[3][price_03l]"></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td><input type="text" name="taplist[4][brewery]"></td>
-                            <td><input type="text" name="taplist[4][beer]"></td>
-                            <td><input type="text" name="taplist[4][alc]"></td>
-                            <td><input type="text" name="taplist[4][epm]"></td>
-                            <td><input type="text" name="taplist[4][ibu]"></td>
-                            <td><input type="text" name="taplist[4][ebc]"></td>
-                            <td><input type="text" name="taplist[4][price_05l]"></td>
-                            <td><input type="text" name="taplist[4][price_03l]"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="submit">SAVE TAP LIST</button>
-            </form>
-        </section>
-
-        <section id="edit-rental-list">
-            <h2>Edit "Půjčovna" Rental List</h2>
-            <form id="rental-form" method="post" action="save_rentallist.php" enctype="multipart/form-data" novalidate>
-                <table border="1" cellpadding="5" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>NUMBER</th>
-                            <th>DESCRIPTION 1</th>
-                            <th>IMAGE</th>
-                            <th>DESCRIPTION 2</th>
-                            <th>DEPOSIT</th>
-                            <th>DAY</th>
-                            <th>WEEKEND</th>
-                            <th>WEEK</th>
-                            <th>MONTH</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><input type="text" name="rentallist[0][desc1]" placeholder="Tvoje máma"></td>
-                            <td></td>
-                            <td><input type="text" name="rentallist[0][desc2]"></td>
-                            <td><input type="text" name="rentallist[0][deposit]"></td>
-                            <td><input type="text" name="rentallist[0][day]"></td>
-                            <td><input type="text" name="rentallist[0][weekend]"></td>
-                            <td><input type="text" name="rentallist[0][week]"></td>
-                            <td><input type="text" name="rentallist[0][month]"></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><input type="text" name="rentallist[1][desc1]" placeholder="Tvoje máma"></td>
-                            <td></td>
-                            <td><input type="text" name="rentallist[1][desc2]"></td>
-                            <td><input type="text" name="rentallist[1][deposit]"></td>
-                            <td><input type="text" name="rentallist[1][day]"></td>
-                            <td><input type="text" name="rentallist[1][weekend]"></td>
-                            <td><input type="text" name="rentallist[1][week]"></td>
-                            <td><input type="text" name="rentallist[1][month]"></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><input type="text" name="rentallist[2][desc1]"></td>
-                            <td></td>
-                            <td><input type="text" name="rentallist[2][desc2]"></td>
-                            <td><input type="text" name="rentallist[2][deposit]"></td>
-                            <td><input type="text" name="rentallist[2][day]"></td>
-                            <td><input type="text" name="rentallist[2][weekend]"></td>
-                            <td><input type="text" name="rentallist[2][week]"></td>
-                            <td><input type="text" name="rentallist[2][month]"></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td><input type="text" name="rentallist[3][desc1]"></td>
-                            <td></td>
-                            <td><input type="text" name="rentallist[3][desc2]"></td>
-                            <td><input type="text" name="rentallist[3][deposit]"></td>
-                            <td><input type="text" name="rentallist[3][day]"></td>
-                            <td><input type="text" name="rentallist[3][weekend]"></td>
-                            <td><input type="text" name="rentallist[3][week]"></td>
-                            <td><input type="text" name="rentallist[3][month]"></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td><input type="text" name="rentallist[4][desc1]"></td>
-                            <td></td>
-                            <td><input type="text" name="rentallist[4][desc2]"></td>
-                            <td><input type="text" name="rentallist[4][deposit]"></td>
-                            <td><input type="text" name="rentallist[4][day]"></td>
-                            <td><input type="text" name="rentallist[4][weekend]"></td>
-                            <td><input type="text" name="rentallist[4][week]"></td>
-                            <td><input type="text" name="rentallist[4][month]"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="submit">SAVE RENTAL LIST</button>
-            </form>
-        </section>
-
-        <section id="gallery-management">
-            <h2>Gallery Management</h2>
-            <form id="gallery-upload-form" method="post" action="gallery_upload.php" enctype="multipart/form-data" novalidate>
-                <label for="gallery-files">Upload Images (multiple):</label><br />
-                <input type="file" id="gallery-files" name="gallery_files[]" multiple accept="image/*" /><br />
-                <button type="submit">Upload</button>
-            </form>
-            <form id="gallery-delete-form" method="post" action="gallery_delete.php" novalidate>
-                <h3>Delete Images</h3>
-                <div class="gallery-images">
-                    <!-- Gallery images will be populated dynamically -->
-                </div>
-                <button type="submit">Delete Selected</button>
-            </form>
-        </section>
-
-        <section id="edit-events">
-            <h2>Edit "Akce" Events</h2>
-            <form id="events-form" method="post" action="save_events.php" novalidate>
-                <div class="events-grid">
-                    <div class="event-edit-card">
-                        <h3>Event 1</h3>
-                        <label>Date:</label>
-                        <input type="text" name="events[0][date]" placeholder="24.12." maxlength="10">
-                        
-                        <label>Title:</label>
-                        <input type="text" name="events[0][title]" placeholder="Event Title" maxlength="100">
-                        
-                        <label>Description:</label>
-                        <textarea name="events[0][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
-                    </div>
-                    
-                    <div class="event-edit-card">
-                        <h3>Event 2</h3>
-                        <label>Date:</label>
-                        <input type="text" name="events[1][date]" placeholder="31.12." maxlength="10">
-                        
-                        <label>Title:</label>
-                        <input type="text" name="events[1][title]" placeholder="Event Title" maxlength="100">
-                        
-                        <label>Description:</label>
-                        <textarea name="events[1][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
-                    </div>
-                    
-                    <div class="event-edit-card">
-                        <h3>Event 3</h3>
-                        <label>Date:</label>
-                        <input type="text" name="events[2][date]" placeholder="15.1." maxlength="10">
-                        
-                        <label>Title:</label>
-                        <input type="text" name="events[2][title]" placeholder="Event Title" maxlength="100">
-                        
-                        <label>Description:</label>
-                        <textarea name="events[2][description]" rows="4" placeholder="Event description..." maxlength="500"></textarea>
-                    </div>
-                </div>
-                <button type="submit">SAVE EVENTS</button>
-            </form>
-        </section>
-
-        <section id="cenik-management">
-            <h2>Ceník Management</h2>
-            <form id="cenik-upload-form" method="post" action="cenik_upload.php" enctype="multipart/form-data" novalidate>
-                <label for="cenik-file">Upload Image:</label><br />
-                <input type="file" id="cenik-file" name="cenik_file" accept="image/*" /><br />
-                <button type="submit">Upload</button>
-            </form>
-            <form id="cenik-delete-form" method="post" action="cenik_delete.php" novalidate>
-                <h3>Delete Images</h3>
-                <div class="cenik-images">
-                    <!-- Ceník images will be populated dynamically -->
-                </div>
-                <button type="submit">Delete Selected</button>
-            </form>
-        </section>
-    </main>
-
-    <script src="js/dashboard.js"></script>
     <script>
-        // Activity Log Modal Functions
-        function toggleActivityLog() {
-            const modal = document.getElementById('activity-log-modal');
-            if (modal.classList.contains('show')) {
-                modal.classList.remove('show');
-            } else {
-                modal.classList.add('show');
-                loadActivityLogs('recent'); // Load recent activities by default
+        // Get modal elements (only if they exist)
+        const modal = document.getElementById('activity-log-modal');
+        const logBtn = document.getElementById('activity-log-btn');
+        const closeBtn = document.querySelector('.modal-close');
+        const logTypeSessions = document.getElementById('log-type-sessions');
+        const logTypeChanges = document.getElementById('log-type-changes');
+
+        // Get tab content elements (only if they exist)
+        const tabSessions = document.getElementById('tab-sessions');
+        const tabChanges = document.getElementById('tab-changes');
+
+        // Get content areas for each tab (only if they exist)
+        const logsContentSessions = document.getElementById('logs-content-sessions');
+        const logsContentChanges = document.getElementById('logs-content-changes');
+
+        // Only set up activity log functionality if elements exist
+        if (logBtn && modal) {
+            // Open modal when button clicked
+            logBtn.onclick = function() {
+                modal.style.display = 'flex';
+                showTab('sessions');
+                loadActivityLogs('sessions');
             }
-        }
 
-        function showLogTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            // Add active class to clicked button
-            event.target.classList.add('active');
-            
-            // Load appropriate logs
-            loadActivityLogs(tabName);
-        }
-
-        async function loadActivityLogs(type) {
-            try {
-                const response = await fetch(`get_activity_logs.php?type=${type}&limit=20`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayLogs(data.logs, type);
-                } else {
-                    console.error('Failed to load logs:', data.error);
+            // Close modal when close button clicked
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
                 }
-            } catch (error) {
-                console.error('Error loading logs:', error);
-                displayFallbackLogs(type);
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
             }
         }
 
-        function displayLogs(logs, type) {
-            let containerId;
-            switch (type) {
+        // Function to show specific tab
+        function showTab(tabType) {
+            // Hide all tab contents
+            tabSessions.classList.remove('active');
+            tabChanges.classList.remove('active');
+
+            // Remove active class from all tab buttons
+            logTypeSessions.classList.remove('active');
+            logTypeChanges.classList.remove('active');
+
+            // Show selected tab content and activate button
+            switch(tabType) {
                 case 'sessions':
-                    containerId = 'login-sessions';
+                    tabSessions.classList.add('active');
+                    logTypeSessions.classList.add('active');
                     break;
                 case 'changes':
-                    containerId = 'content-changes';
+                    tabChanges.classList.add('active');
+                    logTypeChanges.classList.add('active');
+                    break;
+            }
+        }
+
+        // Function to get activity icon and class based on action
+        function getActivityIcon(action, section) {
+            if (action.toLowerCase().includes('login') || action.toLowerCase().includes('logged in')) {
+                return { icon: '🔓', class: 'login' };
+            } else if (action.toLowerCase().includes('logout') || action.toLowerCase().includes('logged out')) {
+                return { icon: '🔒', class: 'logout' };
+            } else if (section === 'Authentication') {
+                return { icon: '🔐', class: 'login' };
+            } else {
+                return { icon: '📝', class: 'change' };
+            }
+        }
+
+        // Function to format timestamp
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('cs-CZ', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // Load activity logs function with enhanced display
+        function loadActivityLogs(type = 'sessions') {
+            // Get the correct content area based on type
+            let targetContent;
+            switch(type) {
+                case 'sessions':
+                    targetContent = logsContentSessions;
+                    break;
+                case 'changes':
+                    targetContent = logsContentChanges;
                     break;
                 default:
-                    containerId = 'recent-activities';
+                    targetContent = logsContentSessions;
             }
+
+            targetContent.innerHTML = '<p style="text-align: center; color: #666;">Loading activity logs...</p>';
             
-            const container = document.getElementById(containerId);
+            const params = new URLSearchParams({
+                type: type,
+                limit: 50
+            });
+
+            fetch(`get_activity_logs.php?${params.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.logs && data.logs.length > 0) {
+                        let logsHtml = '';
+                        data.logs.forEach(log => {
+                            const activityInfo = getActivityIcon(log.action, log.section);
+                            const formattedTime = formatTimestamp(log.timestamp);
+                            
+                            logsHtml += `
+                                <div class="activity-item ${activityInfo.class}">
+                                    <div class="activity-icon ${activityInfo.class}">
+                                        ${activityInfo.icon}
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-action">${log.action}</div>
+                                        <div class="activity-description">
+                                            ${log.section ? `Section: ${log.section}` : ''}
+                                            ${log.details ? `<br>${log.details}` : ''}
+                                        </div>
+                                        <div class="activity-meta">
+                                            <div class="activity-time">
+                                                🕒 ${formattedTime}
+                                            </div>
+                                            <div class="activity-ip">
+                                                👤 ${log.username}
+                                            </div>
+                                            ${log.ip_address ? `<div class="activity-ip">🌐 ${log.ip_address}</div>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        targetContent.innerHTML = logsHtml;
+                    } else {
+                        targetContent.innerHTML = '<p style="text-align: center; color: #666;">No activity logs found.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading logs:', error);
+                    targetContent.innerHTML = '<p style="text-align: center; color: #dc3545;">Error loading activity logs.</p>';
+                });
+        }
+
+        // Handle log type buttons (only if they exist)
+        if (logTypeSessions) {
+            logTypeSessions.onclick = function() {
+                showTab('sessions');
+                loadActivityLogs('sessions');
+            }
+        }
+
+        if (logTypeChanges) {
+            logTypeChanges.onclick = function() {
+                showTab('changes');
+                loadActivityLogs('changes');
+            }
+        }
+
+        // Clear activity logs function
+        function clearActivityLogs() {
+            if (confirm('Are you sure you want to clear all activity log history? This action cannot be undone.')) {
+                fetch('clear_activity_logs.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Activity log history cleared successfully!');
+                        // Refresh both tabs
+                        loadActivityLogs('sessions');
+                        loadActivityLogs('changes');
+                    } else {
+                        alert('Error clearing logs: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error clearing logs:', error);
+                    alert('Error clearing logs. Please try again.');
+                });
+            }
+        }
+
+        // Hide loading screen after page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.display = 'none';
+                }
+            }, 500);
+        });
+
+        // Form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.display = 'flex';
+                }
+            });
+        });
+
+        // Clear input fields on focus to prevent missing first character issue
+        document.querySelectorAll('input[name^="taplist"]').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.value = '';
+            });
+        });
+
+        // Diary functionality
+        function addDiaryEntry() {
+            const form = document.querySelector('.diary-entry-form');
+            const entries = document.getElementById('diary-entries');
+            form.style.display = 'block';
+            entries.style.display = 'none';
             
-            if (logs.length === 0) {
-                container.innerHTML = '<div class="activity-item"><div class="activity-details"><div class="activity-action">No activities found</div></div></div>';
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('diary-date').value = today;
+        }
+
+        function cancelDiaryEntry() {
+            const form = document.querySelector('.diary-entry-form');
+            const entries = document.getElementById('diary-entries');
+            form.style.display = 'none';
+            entries.style.display = 'block';
+            
+            // Clear form
+            document.getElementById('diary-form').reset();
+        }
+
+        function viewDiaryEntries() {
+            const form = document.querySelector('.diary-entry-form');
+            const entries = document.getElementById('diary-entries');
+            form.style.display = 'none';
+            entries.style.display = 'block';
+            
+            // Load diary entries (placeholder for now)
+            entries.innerHTML = '<p>Diary entries will be loaded here...</p>';
+        }
+
+        // Reservation Management Functions
+        let allReservations = [];
+        let filteredReservations = [];
+
+        // Load reservations from database
+        function loadReservations() {
+            const loadingDiv = document.getElementById('reservations-loading');
+            const listDiv = document.getElementById('reservations-list');
+            
+            if (loadingDiv) loadingDiv.style.display = 'block';
+            if (listDiv) listDiv.innerHTML = '';
+
+            fetch('get_reservations.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (loadingDiv) loadingDiv.style.display = 'none';
+                    
+                    if (data.success) {
+                        allReservations = data.reservations;
+                        filteredReservations = [...allReservations];
+                        updateReservationStats();
+                        displayReservations(filteredReservations);
+                    } else {
+                        if (listDiv) {
+                            listDiv.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 2rem;">Chyba při načítání rezervací: ' + (data.message || 'Neznámá chyba') + '</p>';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading reservations:', error);
+                    if (loadingDiv) loadingDiv.style.display = 'none';
+                    if (listDiv) {
+                        listDiv.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 2rem;">Chyba při načítání rezervací.</p>';
+                    }
+                });
+        }
+
+        // Update reservation statistics
+        function updateReservationStats() {
+            const totalElement = document.getElementById('total-reservations');
+            const pendingElement = document.getElementById('pending-reservations');
+            const confirmedElement = document.getElementById('confirmed-reservations');
+            const cancelledElement = document.getElementById('cancelled-reservations');
+
+            if (totalElement) totalElement.textContent = allReservations.length;
+            if (pendingElement) pendingElement.textContent = allReservations.filter(r => r.status === 'pending').length;
+            if (confirmedElement) confirmedElement.textContent = allReservations.filter(r => r.status === 'confirmed').length;
+            if (cancelledElement) cancelledElement.textContent = allReservations.filter(r => r.status === 'cancelled').length;
+        }
+
+        // Display reservations
+        function displayReservations(reservations) {
+            const listDiv = document.getElementById('reservations-list');
+            if (!listDiv) return;
+
+            if (reservations.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Žádné rezervace nenalezeny.</p>';
                 return;
             }
-            
-            container.innerHTML = logs.map(log => {
-                const date = new Date(log.timestamp);
-                const timeStr = date.toLocaleString();
-                
-                let iconClass = 'activity-icon';
-                let itemClass = 'activity-item';
-                let iconText = 'A';
-                
-                if (log.action && log.action.toLowerCase().includes('login')) {
-                    iconClass += ' login';
-                    itemClass += ' login';
-                    iconText = '→';
-                } else if (log.action && log.action.toLowerCase().includes('logout')) {
-                    iconClass += ' logout';
-                    itemClass += ' logout';
-                    iconText = '←';
-                } else {
-                    iconClass += ' change';
-                    itemClass += ' change';
-                    iconText = '✎';
-                }
-                
-                return `
-                    <div class="${itemClass}">
-                        <div class="${iconClass}">${iconText}</div>
-                        <div class="activity-details">
-                            <div class="activity-action">${log.action}</div>
-                            ${log.details ? `<div class="activity-description">${log.details}</div>` : ''}
-                            ${log.section ? `<div class="activity-description">Section: ${log.section}</div>` : ''}
-                            <div class="activity-meta">
-                                <div class="activity-time">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12,6 12,12 16,14"></polyline>
-                                    </svg>
-                                    ${timeStr}
-                                </div>
-                                <div class="activity-ip">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                                    </svg>
-                                    ${log.ip_address || 'unknown'}
-                                </div>
+
+            let html = '<div class="reservations-grid">';
+            reservations.forEach(reservation => {
+                const statusClass = reservation.status || 'pending';
+                const statusText = {
+                    'pending': 'Čeká na potvrzení',
+                    'confirmed': 'Potvrzeno',
+                    'cancelled': 'Zrušeno'
+                }[statusClass] || 'Neznámý';
+
+                html += `
+                    <div class="reservation-card" data-id="${reservation.id}">
+                        <div class="reservation-header">
+                            <h3>${escapeHtml(reservation.first_name)} ${escapeHtml(reservation.last_name)}</h3>
+                            <span class="reservation-status status-${statusClass}">
+                                ${statusText}
+                            </span>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-row">
+                                <strong>Email:</strong> ${escapeHtml(reservation.email)}
                             </div>
+                            ${reservation.phone ? `<div class="detail-row"><strong>Telefon:</strong> ${escapeHtml(reservation.phone)}</div>` : ''}
+                            <div class="detail-row">
+                                <strong>Předmět půjčení:</strong> ${escapeHtml(reservation.rental_item || 'N/A')}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Období:</strong> ${escapeHtml(reservation.rental_period || 'N/A')}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Od:</strong> ${formatDate(reservation.rental_date_from)}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Do:</strong> ${formatDate(reservation.rental_date_to)}
+                            </div>
+                            ${reservation.additional_info ? `<div class="detail-row"><strong>Dodatečné info:</strong> ${escapeHtml(reservation.additional_info)}</div>` : ''}
+                            <div class="detail-row">
+                                <strong>Podáno:</strong> ${formatDateTime(reservation.created_at)}
+                            </div>
+                        </div>
+                        
+                        <div class="reservation-actions">
+                            ${reservation.status === 'pending' ? `
+                                <button class="btn-action btn-confirm" onclick="updateReservationStatus(${reservation.id}, 'confirmed')">
+                                    Potvrdit
+                                </button>
+                                <button class="btn-action btn-cancel" onclick="updateReservationStatus(${reservation.id}, 'cancelled')">
+                                    Zrušit
+                                </button>
+                            ` : ''}
+                            <button class="btn-action btn-delete" onclick="deleteReservation(${reservation.id})">
+                                Smazat
+                            </button>
                         </div>
                     </div>
                 `;
-            }).join('');
+            });
+            html += '</div>';
+            listDiv.innerHTML = html;
         }
 
-        function displayFallbackLogs(type) {
-            // Fallback sample data when database is not available
-            const sampleLogs = [
-                {
-                    action: 'Logged in',
-                    details: 'Successful login to dashboard',
-                    section: 'Authentication',
-                    timestamp: new Date().toISOString(),
-                    ip_address: '127.0.0.1'
+        // Filter reservations by status
+        function filterReservations() {
+            const statusFilter = document.getElementById('status-filter');
+            if (!statusFilter) return;
+
+            const selectedStatus = statusFilter.value;
+            if (selectedStatus === '') {
+                filteredReservations = [...allReservations];
+            } else {
+                filteredReservations = allReservations.filter(r => r.status === selectedStatus);
+            }
+            displayReservations(filteredReservations);
+        }
+
+        // Helper functions
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('cs-CZ');
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleString('cs-CZ');
+        }
+
+        function updateReservationStatus(reservationId, status) {
+            const statusText = {
+                'confirmed': 'potvrdit',
+                'cancelled': 'zrušit'
+            }[status] || status;
+
+            if (!confirm(`Opravdu chcete ${statusText} tuto rezervaci?`)) {
+                return;
+            }
+
+            fetch('update_reservation_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                {
-                    action: 'Updated tap list',
-                    details: 'Modified beer #1: KAMENICE NAD LIPOU',
-                    section: 'Tap List',
-                    timestamp: new Date(Date.now() - 3600000).toISOString(),
-                    ip_address: '127.0.0.1'
+                body: JSON.stringify({
+                    id: reservationId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload reservations to get updated data
+                    loadReservations();
+                    alert(`Rezervace byla úspěšně ${status === 'confirmed' ? 'potvrzena' : 'zrušena'}!`);
+                } else {
+                    alert('Chyba při aktualizaci rezervace: ' + (data.error || 'Neznámá chyba'));
                 }
-            ];
-            
-            displayLogs(sampleLogs, type);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Chyba při aktualizaci rezervace. Zkuste to prosím znovu.');
+            });
         }
 
-        // Update login time display
-        function updateLoginTime() {
-            const loginTimeElement = document.getElementById('login-time');
-            if (loginTimeElement) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('cs-CZ', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-                loginTimeElement.textContent = `Logged in: ${timeStr}`;
+        function deleteReservation(reservationId) {
+            if (!confirm('Opravdu chcete smazat tuto rezervaci? Tuto akci nelze vrátit zpět.')) {
+                return;
             }
+
+            fetch('delete_reservation.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: reservationId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload reservations to get updated data
+                    loadReservations();
+                    alert('Rezervace byla úspěšně smazána!');
+                } else {
+                    alert('Chyba při mazání rezervace: ' + (data.error || 'Neznámá chyba'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Chyba při mazání rezervace. Zkuste to prosím znovu.');
+            });
         }
 
-        // Show loading screen only during upload, delete, and save operations
-        function showLoadingScreen() {
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.classList.add('show');
-            }
-        }
-
-        function hideLoadingScreen() {
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.classList.remove('show');
-                    loadingScreen.style.opacity = '1';
-                }, 500);
-            }
-        }
-
-        // Remove any form validation popups
+        // Load reservations when page loads & auto-scroll to active section anchor
         document.addEventListener('DOMContentLoaded', function() {
-            // Update login time on page load
-            updateLoginTime();
-            
-            // Close modal when clicking outside
-            document.getElementById('activity-log-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    toggleActivityLog();
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 150);
                 }
-            });
-            
-            // Disable HTML5 form validation for all forms
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                form.setAttribute('novalidate', 'true');
-                
-                // Remove required attributes from all inputs
-                const inputs = form.querySelectorAll('input[required]');
-                inputs.forEach(input => {
-                    input.removeAttribute('required');
-                });
+            }
 
-                // Add loading screen functionality to forms
-                form.addEventListener('submit', function(e) {
-                    // Show loading screen for upload, delete, and save operations
-                    showLoadingScreen();
-                });
-            });
-            
-            // Override any validation messages
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('invalid', function(e) {
-                    e.preventDefault();
-                });
-            });
+            // Load reservations after a short delay to ensure page is fully loaded
+            setTimeout(() => {
+                loadReservations();
+            }, 1000);
         });
-    </script>
-</body>
+
+    
+    function addEventCard() {
+        const container = document.getElementById('events-grid-container');
+        if (!container) return;
+
+        const currentCards = container.querySelectorAll('.event-edit-card');
+        const newIndex = currentCards.length;
+
+        const newCard = document.createElement('div');
+        newCard.className = 'event-edit-card';
+
+        newCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                <h3><i class="fa-solid fa-calendar-days"></i> Akce #${newIndex + 1}</h3>
+                <button type="button" onclick="removeEventCard(this)" class="btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                    <i class="fa-solid fa-trash"></i> Smazat akci
+                </button>
+            </div>
+            <label>Datum:</label>
+            <input type="text" name="events[${newIndex}][date]" placeholder="např. 24.12." maxlength="10">
+            
+            <label style="margin-top: 0.8rem;">Název akce:</label>
+            <input type="text" name="events[${newIndex}][title]" placeholder="Název události" maxlength="100">
+            
+            <label style="margin-top: 0.8rem;">Popis:</label>
+            <textarea name="events[${newIndex}][description]" rows="4" placeholder="Popis akce..." maxlength="500"></textarea>
+        `;
+
+        container.appendChild(newCard);
+    }
+
+    function removeEventCard(btn) {
+        const card = btn.closest('.event-edit-card');
+        if (card) {
+            card.remove();
+            reindexEventCards();
+        }
+    }
+
+    function reindexEventCards() {
+        const container = document.getElementById('events-grid-container');
+        if (!container) return;
+
+        const cards = container.querySelectorAll('.event-edit-card');
+        cards.forEach((card, index) => {
+            card.setAttribute('data-index', index);
+            const titleHeader = card.querySelector('.event-card-header h3');
+            if (titleHeader) titleHeader.textContent = `Akce #${index + 1}`;
+
+            const dateInput = card.querySelector('input[name*="[date]"]');
+            const titleInput = card.querySelector('input[name*="[title]"]');
+            const descInput = card.querySelector('textarea[name*="[description]"]');
+
+            if (dateInput) dateInput.name = `events[${index}][date]`;
+            if (titleInput) titleInput.name = `events[${index}][title]`;
+            if (descInput) descInput.name = `events[${index}][description]`;
+        });
+    }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.current-year').forEach(el => el.textContent = new Date().getFullYear());
+});
+
+async function loadPopupDataForDashboard() {
+    try {
+        const response = await fetch('get_popup.php?t=' + Date.now());
+        if (response.ok) {
+            const data = await response.json();
+            const activeCheckbox = document.getElementById('popup_active_html');
+            const titleInput = document.getElementById('popup_title_input');
+            const textInput = document.getElementById('popup_text_input');
+            const startInput = document.getElementById('popup_start_input');
+            const endInput = document.getElementById('popup_end_input');
+            const previewBox = document.getElementById('popup_image_preview_box');
+            const previewImg = document.getElementById('popup_current_image_img');
+
+            if (activeCheckbox) { activeCheckbox.checked = !!data.active; updatePopupToggleLabel(activeCheckbox); }
+            if (titleInput) titleInput.value = data.title || '';
+            if (textInput) textInput.value = data.text || '';
+            if (startInput) startInput.value = data.start_datetime || '';
+            if (endInput) endInput.value = data.end_datetime || '';
+
+            if (data.image && previewBox && previewImg) {
+                previewImg.src = data.image;
+                previewBox.style.display = 'flex';
+            } else if (previewBox) {
+                previewBox.style.display = 'none';
+            }
+        }
+    } catch (e) {
+        console.log('Error loading popup data:', e);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadPopupDataForDashboard);
+
+
+    function updatePopupToggleLabel(checkbox) {
+        const labelText = checkbox.closest('.popup-toggle-wrapper').querySelector('.toggle-label-text');
+        if (labelText) {
+            labelText.textContent = (checkbox.checked ? 'Vypnout' : 'Zapnout') + ' pop-up vyskakovací okno na webu';
+        }
+    }
+
+</script>
 </html>

@@ -25,9 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             zoomedImg.style.transition = 'transform 0.3s ease';
 
             fullscreenContainer.appendChild(zoomedImg);
-            document.body.appendChild(fullscreenContainer);
-
-            // Trigger reflow to enable animation
+            document.body.appendChild(fullscreenContainer);
             zoomedImg.offsetHeight;
             zoomedImg.style.transform = 'scale(1)';
 

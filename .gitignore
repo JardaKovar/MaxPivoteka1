@@ -1,0 +1,22 @@
+# Citlive soubory s hesly a konfiguraci
+.env
+*.env.local
+
+# Logy a docasne soubory
+*.log
+activity.log
+sessions.log
+email_log.txt
+debug_save_events.log
+
+# Node & pomocne skripty
+node_modules/
+**/node_modules/
+package-lock.json
+**/package-lock.json
+
+# Lokalne spustitelne skripty a ngrok
+spustit_web.bat
+start.bat
+ngrok.exe
+

@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all links that have a hash (internal links)
+document.addEventListener('DOMContentLoaded', function() {
     const links = document.querySelectorAll('a[href^="#"]');
     
     links.forEach(link => {
@@ -13,9 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
-                });
-                
-                // Update URL without jumping
+                });
                 history.pushState(null, '', targetId);
             }
         });

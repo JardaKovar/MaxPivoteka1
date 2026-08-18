@@ -48,6 +48,172 @@ $loginTimeFormatted = date('H:i', $loginTime);
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MaxDashboard">
+
+    <style id="activity-log-custom-styles">
+        /* Activity Log Modal Cards Styling */
+        #activity-log-modal .modal-content {
+            max-width: 680px;
+            width: 90%;
+            background: #111827 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+            border-radius: 16px !important;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding: 6px;
+            margin: 1rem 0;
+        }
+
+        .activity-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .activity-list::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 4px;
+        }
+        .activity-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+        }
+        .activity-list::-webkit-scrollbar-thumb:hover {
+            background: #ef4444;
+        }
+
+        .activity-item {
+            background: #1e293b !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 14px !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        .activity-item:hover {
+            background: #273549 !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px);
+        }
+
+        .activity-item.login {
+            border-left: 4px solid #22c55e !important;
+        }
+
+        .activity-item.logout {
+            border-left: 4px solid #ef4444 !important;
+        }
+
+        .activity-item.change {
+            border-left: 4px solid #3b82f6 !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+        }
+
+        .activity-left-col {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .activity-right-col {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .activity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .activity-badge.login {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .activity-badge.logout {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .activity-badge.change {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .activity-user {
+            color: #f8fafc;
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .activity-user i {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .activity-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .activity-ip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #94a3b8;
+        }
+
+        .activity-desc-box {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        .activity-change-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    </style>
+
 </head>
 <body>
     <!-- Loading Screen -->
@@ -589,17 +755,15 @@ $loginTimeFormatted = date('H:i', $loginTime);
         }
 
         // Function to get activity icon and class based on action
-        function getActivityIcon(action, section) {
+        function getActivityType(action, section) {
             action = (action || '').toLowerCase();
-            section = section || '';
-            if (action.includes('login') || action.includes('logged in')) {
-                return { faIcon: 'fa-solid fa-right-to-bracket', class: 'login' };
+            section = (section || '').toLowerCase();
+            if (action.includes('login') || action.includes('logged in') || section.includes('auth')) {
+                return { type: 'login', label: 'LOG IN', icon: 'fa-solid fa-arrow-right-to-bracket' };
             } else if (action.includes('logout') || action.includes('logged out')) {
-                return { faIcon: 'fa-solid fa-right-from-bracket', class: 'logout' };
-            } else if (section === 'Authentication') {
-                return { faIcon: 'fa-solid fa-shield-halved', class: 'login' };
+                return { type: 'logout', label: 'LOG OUT', icon: 'fa-solid fa-arrow-right-from-bracket' };
             } else {
-                return { faIcon: 'fa-solid fa-pen-to-square', class: 'change' };
+                return { type: 'change', label: action.toUpperCase() || 'ZMĚNA', icon: 'fa-solid fa-pen-to-square' };
             }
         }
 
@@ -631,32 +795,44 @@ $loginTimeFormatted = date('H:i', $loginTime);
                     if (data.success && data.logs && data.logs.length > 0) {
                         let logsHtml = '';
                         data.logs.forEach(log => {
-                            const activityInfo = getActivityIcon(log.action, log.section);
+                            const act = getActivityType(log.action, log.section);
                             const formattedTime = formatTimestamp(log.timestamp);
                             
-                            logsHtml += `
-                                <div class="activity-item ${activityInfo.class}">
-                                    <div class="activity-icon-badge">
-                                        <i class="${activityInfo.faIcon}"></i>
+                            if (type === 'sessions') {
+                                logsHtml += `
+                                    <div class="activity-item ${act.type}">
+                                        <div class="activity-left-col">
+                                            <span class="activity-badge ${act.type}"><i class="${act.icon}"></i> ${act.label}</span>
+                                            <span class="activity-user"><i class="fa-solid fa-user"></i> ${log.username || 'Uživatel'}</span>
+                                        </div>
+                                        <div class="activity-right-col">
+                                            <span class="activity-time"><i class="fa-regular fa-clock"></i> ${formattedTime}</span>
+                                            ${log.ip_address ? `<span class="activity-ip"><i class="fa-solid fa-globe"></i> ${log.ip_address}</span>` : ''}
+                                        </div>
                                     </div>
-                                    <div class="activity-details">
-                                        <div class="activity-header-row">
-                                            <span class="activity-action-tag">${log.action || 'Aktivita'}</span>
-                                            <span class="activity-meta-item" style="color: #94a3b8;"><i class="fa-regular fa-clock"></i> ${formattedTime}</span>
+                                `;
+                            } else {
+                                logsHtml += `
+                                    <div class="activity-item change">
+                                        <div class="activity-change-header">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <span class="activity-badge change"><i class="${act.icon}"></i> ${act.label}</span>
+                                                <span class="activity-user"><i class="fa-solid fa-user"></i> ${log.username || 'Uživatel'}</span>
+                                            </div>
+                                            <div class="activity-right-col">
+                                                <span class="activity-time"><i class="fa-regular fa-clock"></i> ${formattedTime}</span>
+                                                ${log.ip_address ? `<span class="activity-ip"><i class="fa-solid fa-globe"></i> ${log.ip_address}</span>` : ''}
+                                            </div>
                                         </div>
                                         ${(log.section || log.details) ? `
-                                            <div class="activity-description">
-                                                ${log.section ? `<strong>${log.section}</strong>: ` : ''}
+                                            <div class="activity-desc-box">
+                                                ${log.section ? `<strong style="color: #60a5fa;">${log.section}</strong>: ` : ''}
                                                 ${log.details || ''}
                                             </div>
                                         ` : ''}
-                                        <div class="activity-meta">
-                                            <span class="activity-meta-item"><i class="fa-solid fa-user"></i> ${log.username || 'Uživatel'}</span>
-                                            ${log.ip_address ? `<span class="activity-meta-item"><i class="fa-solid fa-globe"></i> ${log.ip_address}</span>` : ''}
-                                        </div>
                                     </div>
-                                </div>
-                            `;
+                                `;
+                            }
                         });
                         targetContent.innerHTML = logsHtml;
                     } else {

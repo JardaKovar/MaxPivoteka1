@@ -1,64 +1,48 @@
 <?php
 session_start();
-require_once 'db_config.php';
+require_once __DIR__ . '/db_config.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     http_response_code(401);
     echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;
 }
 
-// Set content type to JSON
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 try {
-    // Get JSON input
     $input = json_decode(file_get_contents('php://input'), true);
-    
     if (!$input || !isset($input['id'])) {
-        echo json_encode(['success' => false, 'error' => 'Missing reservation ID']);
+        echo json_encode(['success' => false, 'error' => 'Missing ID']);
         exit;
     }
     
-    $reservationId = (int)$input['id'];
+    $reservationId = $input['id'];
     
-    if (!$pdo) {
-        echo json_encode(['success' => false, 'error' => 'Database connection failed']);
-        exit;
+    // Delete from data/reservations.json
+    $resFile = __DIR__ . '/data/reservations.json';
+    if (file_exists($resFile)) {
+        $reservations = json_decode(file_get_contents($resFile), true) ?: [];
+        $reservations = array_values(array_filter($reservations, function($r) use ($reservationId) {
+            return (string)$r['id'] !== (string)$reservationId;
+        }));
+        file_put_contents($resFile, json_encode($reservations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
     
-    // Get reservation details before deletion for logging
-    $stmt = $pdo->prepare("SELECT first_name, last_name, email FROM reservations WHERE id = ?");
-    $stmt->execute([$reservationId]);
-    $reservation = $stmt->fetch();
-    
-    if (!$reservation) {
-        echo json_encode(['success' => false, 'error' => 'Reservation not found']);
-        exit;
+    // Delete from database if connected
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM reservations WHERE id = ?");
+            $stmt->execute([$reservationId]);
+        } catch (Throwable $e) {}
     }
     
-    // Delete the reservation
-    $stmt = $pdo->prepare("DELETE FROM reservations WHERE id = ?");
-    $result = $stmt->execute([$reservationId]);
+    logActivity($_SESSION['username'] ?? 'User', 'Smazání rezervace', 'Rezervace', "Smazána rezervace #{$reservationId}", $pdo);
     
-    if ($result && $stmt->rowCount() > 0) {
-        // Log the activity
-        if (function_exists('logActivity')) {
-            $customerName = $reservation['first_name'] . ' ' . $reservation['last_name'];
-            logActivity($pdo, $_SESSION['username'], 'Reservation Deleted', 'Reservations', "Deleted reservation for {$customerName} ({$reservation['email']})");
-        }
-        
-        echo json_encode(['success' => true, 'message' => 'Reservation deleted successfully']);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Failed to delete reservation']);
-    }
-    
-} catch (PDOException $e) {
-    error_log("Database error in delete_reservation.php: " . $e->getMessage());
-    echo json_encode(['success' => false, 'error' => 'Database error occurred']);
-} catch (Exception $e) {
-    error_log("Error in delete_reservation.php: " . $e->getMessage());
-    echo json_encode(['success' => false, 'error' => 'An error occurred']);
+    echo json_encode(['success' => true, 'message' => 'Reservation deleted']);
+    exit;
+} catch (Throwable $e) {
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    exit;
 }
 ?>

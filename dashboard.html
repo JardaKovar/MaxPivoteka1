@@ -673,20 +673,23 @@
 
         // Function to get activity icon and class based on action
         function getActivityIcon(action, section) {
-            if (action.toLowerCase().includes('login') || action.toLowerCase().includes('logged in')) {
-                return { icon: '🔓', class: 'login' };
-            } else if (action.toLowerCase().includes('logout') || action.toLowerCase().includes('logged out')) {
-                return { icon: '🔒', class: 'logout' };
+            action = (action || '').toLowerCase();
+            section = section || '';
+            if (action.includes('login') || action.includes('logged in')) {
+                return { faIcon: 'fa-solid fa-right-to-bracket', class: 'login' };
+            } else if (action.includes('logout') || action.includes('logged out')) {
+                return { faIcon: 'fa-solid fa-right-from-bracket', class: 'logout' };
             } else if (section === 'Authentication') {
-                return { icon: '🔐', class: 'login' };
+                return { faIcon: 'fa-solid fa-shield-halved', class: 'login' };
             } else {
-                return { icon: '📝', class: 'change' };
+                return { faIcon: 'fa-solid fa-pen-to-square', class: 'change' };
             }
         }
 
-        // Function to format timestamp
         function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
             const date = new Date(timestamp);
+            if (isNaN(date.getTime())) return timestamp;
             return date.toLocaleString('cs-CZ', {
                 day: '2-digit',
                 month: '2-digit',
@@ -697,27 +700,13 @@
             });
         }
 
-        // Load activity logs function with enhanced display
         function loadActivityLogs(type = 'sessions') {
-            // Get the correct content area based on type
-            let targetContent;
-            switch(type) {
-                case 'sessions':
-                    targetContent = logsContentSessions;
-                    break;
-                case 'changes':
-                    targetContent = logsContentChanges;
-                    break;
-                default:
-                    targetContent = logsContentSessions;
-            }
+            let targetContent = (type === 'sessions') ? logsContentSessions : logsContentChanges;
+            if (!targetContent) return;
 
-            targetContent.innerHTML = '<p style="text-align: center; color: #666;">Loading activity logs...</p>';
+            targetContent.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 1.5rem;"><i class="fa-solid fa-spinner fa-spin"></i> Načítání historie aktivity...</p>';
             
-            const params = new URLSearchParams({
-                type: type,
-                limit: 50
-            });
+            const params = new URLSearchParams({ type: type, limit: 50 });
 
             fetch(`get_activity_logs.php?${params.toString()}`)
                 .then(response => response.json())
@@ -730,23 +719,23 @@
                             
                             logsHtml += `
                                 <div class="activity-item ${activityInfo.class}">
-                                    <div class="activity-icon ${activityInfo.class}">
-                                        ${activityInfo.icon}
+                                    <div class="activity-icon-badge">
+                                        <i class="${activityInfo.faIcon}"></i>
                                     </div>
                                     <div class="activity-details">
-                                        <div class="activity-action">${log.action}</div>
-                                        <div class="activity-description">
-                                            ${log.section ? `Section: ${log.section}` : ''}
-                                            ${log.details ? `<br>${log.details}` : ''}
+                                        <div class="activity-header-row">
+                                            <span class="activity-action-tag">${log.action || 'Aktivita'}</span>
+                                            <span class="activity-meta-item" style="color: #94a3b8;"><i class="fa-regular fa-clock"></i> ${formattedTime}</span>
                                         </div>
+                                        ${(log.section || log.details) ? `
+                                            <div class="activity-description">
+                                                ${log.section ? `<strong>${log.section}</strong>: ` : ''}
+                                                ${log.details || ''}
+                                            </div>
+                                        ` : ''}
                                         <div class="activity-meta">
-                                            <div class="activity-time">
-                                                🕒 ${formattedTime}
-                                            </div>
-                                            <div class="activity-ip">
-                                                👤 ${log.username}
-                                            </div>
-                                            ${log.ip_address ? `<div class="activity-ip">🌐 ${log.ip_address}</div>` : ''}
+                                            <span class="activity-meta-item"><i class="fa-solid fa-user"></i> ${log.username || 'Uživatel'}</span>
+                                            ${log.ip_address ? `<span class="activity-meta-item"><i class="fa-solid fa-globe"></i> ${log.ip_address}</span>` : ''}
                                         </div>
                                     </div>
                                 </div>
@@ -754,12 +743,12 @@
                         });
                         targetContent.innerHTML = logsHtml;
                     } else {
-                        targetContent.innerHTML = '<p style="text-align: center; color: #666;">No activity logs found.</p>';
+                        targetContent.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 2rem;"><i class="fa-regular fa-folder-open"></i> Žádné záznamy aktivit nebyly nalezeny.</p>';
                     }
                 })
                 .catch(error => {
                     console.error('Error loading logs:', error);
-                    targetContent.innerHTML = '<p style="text-align: center; color: #dc3545;">Error loading activity logs.</p>';
+                    targetContent.innerHTML = '<p style="text-align: center; color: #ef4444; padding: 2rem;"><i class="fa-solid fa-triangle-exclamation"></i> Chyba při načítání historie.</p>';
                 });
         }
 

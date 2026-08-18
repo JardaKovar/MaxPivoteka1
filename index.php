@@ -2212,7 +2212,7 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
                     <!-- Rental list rows will be dynamically loaded here -->
                 </tbody>
             </table>
-            <p class="rental-contact">Pro zapůjčení prosím volat na +420603239703</p>
+            <p class="rental-contact">Pro zapůjčení prosím volat na <a href="tel:+420731179453" style="color: inherit; text-decoration: none;">+420 731 179 453</a> / <a href="tel:+420317721341" style="color: inherit; text-decoration: none;">+420 317 721 341</a></p>
         </div>
         
         <!-- Rental Reservation Form -->

@@ -2132,7 +2132,26 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
                 </tr>
             </thead>
             <tbody>
-                <!-- Tap list rows will be dynamically loaded here -->
+                <?php
+                $tapDataFile = __DIR__ . '/data/taplist.json';
+                $tapList = file_exists($tapDataFile) ? json_decode(file_get_contents($tapDataFile), true) : [];
+                if (!empty($tapList)):
+                    foreach ($tapList as $index => $tap):
+                        if (!empty($tap['brewery']) || !empty($tap['beer'])):
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($tap['number'] ?? ($index + 1)) ?></td>
+                    <td><?= htmlspecialchars($tap['brewery'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($tap['beer'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($tap['alc'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($tap['epm'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($tap['price_05l'] ?? '') ?></td>
+                </tr>
+                <?php
+                        endif;
+                    endforeach;
+                endif;
+                ?>
             </tbody>
         </table>
     </div>
@@ -2141,7 +2160,29 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
 <section id="Akce" class="events-section">
     <h2>Akce</h2>
     <div class="events-container" id="events-container">
-        <!-- Event cards will be dynamically loaded here -->
+        <?php
+        $eventsDataFile = __DIR__ . '/data/events.json';
+        $events = file_exists($eventsDataFile) ? json_decode(file_get_contents($eventsDataFile), true) : [];
+        if (!empty($events)):
+            foreach ($events as $event):
+                if (!empty($event['title']) || !empty($event['description'])):
+        ?>
+        <div class="event-card">
+            <?php if (!empty($event['date'])): ?>
+                <div class="event-date"><?= htmlspecialchars($event['date']) ?></div>
+            <?php endif; ?>
+            <?php if (!empty($event['title'])): ?>
+                <h3><?= htmlspecialchars($event['title']) ?></h3>
+            <?php endif; ?>
+            <?php if (!empty($event['description'])): ?>
+                <p><?= nl2br(htmlspecialchars($event['description'])) ?></p>
+            <?php endif; ?>
+        </div>
+        <?php
+                endif;
+            endforeach;
+        endif;
+        ?>
     </div>
 </section>
 
@@ -2209,8 +2250,34 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
                     </tr>
                 </thead>
                 <tbody id="rental-list-tbody">
-                    <!-- Rental list rows will be dynamically loaded here -->
-                </tbody>
+                <?php
+                $rentalDataFile = __DIR__ . '/data/rentallist.json';
+                $rentalList = file_exists($rentalDataFile) ? json_decode(file_get_contents($rentalDataFile), true) : [];
+                if (!empty($rentalList)):
+                    foreach ($rentalList as $index => $rental):
+                        if (!empty($rental['desc1']) || !empty($rental['desc2'])):
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($rental['number'] ?? ($index + 1)) ?></td>
+                    <td><?= htmlspecialchars($rental['desc1'] ?? '') ?></td>
+                    <td>
+                        <?php if (!empty($rental['image'])): ?>
+                            <img src="<?= htmlspecialchars(strpos($rental['image'], 'images/') === 0 ? $rental['image'] : 'images/pujcovna/' . $rental['image']) ?>" alt="<?= htmlspecialchars($rental['desc1'] ?? 'Půjčovna') ?>" class="rental-image">
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars($rental['desc2'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($rental['deposit'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($rental['day'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($rental['weekend'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($rental['week'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($rental['month'] ?? '') ?></td>
+                </tr>
+                <?php
+                        endif;
+                    endforeach;
+                endif;
+                ?>
+            </tbody>
             </table>
             <p class="rental-contact">Pro zapůjčení prosím volat na <a href="tel:+420731179453" style="color: inherit; text-decoration: none;">+420 731 179 453</a> / <a href="tel:+420317721341" style="color: inherit; text-decoration: none;">+420 317 721 341</a></p>
         </div>

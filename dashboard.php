@@ -217,11 +217,7 @@ $loginTimeFormatted = date('H:i', $loginTime);
 </head>
 <body>
     <!-- Loading Screen -->
-    <div id="loading-screen" style="display:none;">
-        <div class="loading-content">
-            <img src="images/logo2.png" alt="MAX PIVOTÉKA" class="loading-logo">
-            <div class="loading-spinner"></div>
-        </div>
+    
     </div>
 
     <header>
@@ -899,19 +895,11 @@ $loginTimeFormatted = date('H:i', $loginTime);
 
         // Form submission handling
         document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                const loadingScreen = document.getElementById('loading-screen');
-                if (loadingScreen) {
-                    loadingScreen.style.display = 'flex';
-                }
-            });
+            
         });
 
         // Clear input fields on focus to prevent missing first character issue
-        document.querySelectorAll('input[name^="taplist"]').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.value = '';
-            });
+        
         });
 
         // Diary functionality

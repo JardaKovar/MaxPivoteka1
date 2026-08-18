@@ -1,59 +1,59 @@
 <?php
 session_start();
-require_once 'db_config.php';
+require_once __DIR__ . '/db_config.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php');
-    exit();
+    header('Location: dashboard.php?error=forbidden#edit-events');
+    exit;
 }
 
-// Check if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['events'])) {
     $events = $_POST['events'];
-
-    // Save to database
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-    if ($conn->connect_error) {
-        header('Location: dashboard.php#edit-events?error=db_connection_failed');
-        exit;
-    }
-
-    // Clear existing events data
-    $conn->query("TRUNCATE TABLE events");
-
-    // Insert new events data
-    $stmt = $conn->prepare("INSERT INTO events (date, title, description) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $date, $title, $description);
-
+    
+    $cleanEvents = [];
     foreach ($events as $event) {
-        $date = $event['date'];
-        $title = $event['title'];
-        $description = $event['description'];
-        
-        // Only insert events that have at least a title or description
-        if (!empty($title) || !empty($description)) {
-            $stmt->execute();
+        $date = trim($event['date'] ?? '');
+        $title = trim($event['title'] ?? '');
+        $description = trim($event['description'] ?? '');
+        if (!empty($date) || !empty($title) || !empty($description)) {
+            $cleanEvents[] = [
+                'date' => $date,
+                'title' => $title,
+                'description' => $description
+            ];
         }
     }
 
-    $stmt->close();
-    $conn->close();
+    // 1. Save to JSON
+    $dataDir = __DIR__ . '/data';
+    if (!file_exists($dataDir)) @mkdir($dataDir, 0777, true);
+    @file_put_contents($dataDir . '/events.json', json_encode($cleanEvents, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-    // Also save to JSON file for backward compatibility
-    $eventsDataFile = __DIR__ . '/data/events.json';
-    $filteredEvents = array_filter($events, function($event) {
-        return !empty($event['title']) || !empty($event['description']);
-    });
-    
-    file_put_contents($eventsDataFile, json_encode(array_values($filteredEvents), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-    // Log the activity
+    // 2. Sync to DB if connected
     if ($pdo) {
-        logActivity($_SESSION['username'] ?? 'Unknown', 'Updated', 'Events', 'Events data updated', $pdo);
+        try {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS events (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                date VARCHAR(100),
+                title VARCHAR(255),
+                description TEXT
+            )");
+            $pdo->exec("TRUNCATE TABLE events");
+            $stmt = $pdo->prepare("INSERT INTO events (date, title, description) VALUES (?, ?, ?)");
+            foreach ($cleanEvents as $ev) {
+                $stmt->execute([$ev['date'], $ev['title'], $ev['description']]);
+            }
+        } catch (Throwable $e) {
+            error_log("Events DB sync error: " . $e->getMessage());
+        }
     }
 
-    header('Location: dashboard.php#edit-events?success=events_saved');
+    logActivity($_SESSION['username'] ?? 'Admin', 'Uloženy akce', 'Akce', 'Aktualizován seznam plánovaných akcí (' . count($cleanEvents) . ' akcí)', $pdo);
+
+    header('Location: dashboard.php?success=events_saved#edit-events');
+    exit;
+} else {
+    header('Location: dashboard.php#edit-events');
     exit;
 }
 ?>

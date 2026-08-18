@@ -1,64 +1,61 @@
 <?php
 session_start();
-require_once 'db_config.php';
+require_once __DIR__ . '/db_config.php';
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: dashboard.php#edit-tap-list?error=forbidden');
+    header('Location: dashboard.php?error=forbidden#edit-tap-list');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['taplist'])) {
     $taplist = $_POST['taplist'];
-
-    try {
-        // Save to database
-        $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-        if ($conn->connect_error) {
-            throw new Exception('Database connection failed: ' . $conn->connect_error);
-        }
-
-        // Clear existing tap list data
-        $conn->query("TRUNCATE TABLE taplist");
-
-        // Insert new tap list data
-        $stmt = $conn->prepare("INSERT INTO taplist (number, brewery, beer, alc, epm, price_05l) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssss", $number, $brewery, $beer, $alc, $epm, $price_05l);
-
-        foreach ($taplist as $tap) {
-            $number = $tap['number'];
-            $brewery = $tap['brewery'];
-            $beer = $tap['beer'];
-            $alc = $tap['alc'];
-            $epm = $tap['epm'];
-            $price_05l = $tap['price_05l'];
-            $stmt->execute();
-        }
-
-        $stmt->close();
-        $conn->close();
-
-        // Also save to JSON file as backup
-        $tapDataFile = __DIR__ . '/data/taplist.json';
-        
-        // Create data directory if not exists
-        if (!file_exists(__DIR__ . '/data')) {
-            mkdir(__DIR__ . '/data', 0755, true);
-        }
-        
-        file_put_contents($tapDataFile, json_encode($taplist, JSON_PRETTY_PRINT));
-
-        // Log the activity
-        if (isset($pdo)) {
-            logActivity($_SESSION['username'], 'Updated', 'Tap List', 'Tap list data updated successfully', $pdo);
-        }
-
-        header('Location: dashboard.php#edit-tap-list?success=taplist_saved');
-        exit;
-
-    } catch (Exception $e) {
-        error_log("Error saving tap list: " . $e->getMessage());
-        header('Location: dashboard.php#edit-tap-list?error=save_failed');
-        exit;
+    
+    // Clean & format tap list
+    $cleanTaplist = [];
+    foreach ($taplist as $index => $tap) {
+        $cleanTaplist[] = [
+            'number' => (int)($tap['number'] ?? ($index + 1)),
+            'brewery' => trim($tap['brewery'] ?? ''),
+            'beer' => trim($tap['beer'] ?? ''),
+            'alc' => trim($tap['alc'] ?? ''),
+            'epm' => trim($tap['epm'] ?? ''),
+            'price_05l' => trim($tap['price_05l'] ?? '')
+        ];
     }
+
+    // 1. Save to JSON file as primary fast store
+    $dataDir = __DIR__ . '/data';
+    if (!file_exists($dataDir)) @mkdir($dataDir, 0777, true);
+    @file_put_contents($dataDir . '/taplist.json', json_encode($cleanTaplist, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+    // 2. Sync to Database if connected
+    if ($pdo) {
+        try {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS taplist (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                number INT,
+                brewery VARCHAR(255),
+                beer VARCHAR(255),
+                alc VARCHAR(50),
+                epm VARCHAR(50),
+                price_05l VARCHAR(50)
+            )");
+            $pdo->exec("TRUNCATE TABLE taplist");
+            $stmt = $pdo->prepare("INSERT INTO taplist (number, brewery, beer, alc, epm, price_05l) VALUES (?, ?, ?, ?, ?, ?)");
+            foreach ($cleanTaplist as $tap) {
+                $stmt->execute([$tap['number'], $tap['brewery'], $tap['beer'], $tap['alc'], $tap['epm'], $tap['price_05l']]);
+            }
+        } catch (Throwable $e) {
+            error_log("Taplist DB sync error: " . $e->getMessage());
+        }
+    }
+
+    logActivity($_SESSION['username'] ?? 'Admin', 'Uloženo pivo na čepu', 'Právě na čepu', 'Aktualizován seznam piv na čepu', $pdo);
+
+    header('Location: dashboard.php?success=taplist_saved#edit-tap-list');
+    exit;
+} else {
+    header('Location: dashboard.php#edit-tap-list');
+    exit;
 }
 ?>

@@ -1,21 +1,25 @@
 <?php
-require_once 'db_config.php';
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+require_once __DIR__ . '/db_config.php';
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Database connection failed']);
-    exit;
-}
-
-$result = $conn->query("SELECT * FROM events ORDER BY id ASC");
 $events = [];
-while ($row = $result->fetch_assoc()) {
-    $events[] = $row;
+
+if ($pdo) {
+    try {
+        $stmt = $pdo->query("SELECT * FROM events ORDER BY id ASC");
+        $dbData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($dbData)) $events = $dbData;
+    } catch (Throwable $e) {}
 }
 
-$conn->close();
+if (empty($events)) {
+    $eventsFile = __DIR__ . '/data/events.json';
+    if (file_exists($eventsFile)) {
+        $events = json_decode(file_get_contents($eventsFile), true) ?: [];
+    }
+}
 
-header('Content-Type: application/json');
 echo json_encode($events);
+exit;
 ?>

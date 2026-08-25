@@ -201,11 +201,7 @@ body {
   word-wrap: break-word;
 }
 
-.hero h1 span {
-  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
-  margin-top: 0.5rem;
-  display: block;
-}
+.hero h1 span { font-size: inherit; font-weight: inherit; margin-top: 0; display: inline; }
 
 .hero p {
   font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
@@ -370,24 +366,48 @@ section h2:after {
 .tap-list tbody tr:nth-child(even) {
 }
 
-/* Events section */
+/* Events section - Compact simple grey */
 .events-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .event-card {
-  padding: 2rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 420px;
+  background: #2b2b2b !important;
+  padding: 1.5rem 1.8rem;
+  border-radius: 8px;
+  border: 1px solid #444444 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .event-date {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
+  margin-bottom: 0.4rem;
+  color: #ffffff !important;
+}
+
+.event-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffffff !important;
+}
+
+.event-card p {
+  color: #cccccc !important;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* Rental section */
@@ -502,6 +522,18 @@ section h2:after {
 }
 
 /* Gallery section */
+
+.gallery-empty-notice {
+  column-span: all !important;
+  -webkit-column-span: all !important;
+  text-align: center !important;
+  color: #94a3b8 !important;
+  font-size: 1.1rem !important;
+  padding: 2.5rem 1rem !important;
+  width: 100% !important;
+  display: block !important;
+}
+
 .gallery-container {
   column-count: 4;
   column-gap: 1rem;
@@ -721,7 +753,7 @@ section h2:after {
 /* Contact section */
 .display_custom {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
 }
@@ -859,9 +891,7 @@ footer {
     font-size: clamp(1.3rem, 2.2vw + 0.5rem, 2.1rem);
     margin-bottom: 1rem;
   }
-  .hero h1 span {
-    font-size: clamp(1.1rem, 1.8vw + 0.4rem, 1.8rem);
-  }
+  .hero h1 span { font-size: inherit; font-weight: inherit; margin-top: 0; display: inline; }
   .hero p {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
@@ -1023,11 +1053,7 @@ footer {
   word-wrap: break-word;
 }
 
-.hero h1 span {
-  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
-  margin-top: 0.5rem;
-  display: block;
-}
+.hero h1 span { font-size: inherit; font-weight: inherit; margin-top: 0; display: inline; }
 
 .hero p {
   font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
@@ -1280,11 +1306,7 @@ footer {
   word-wrap: break-word;
 }
 
-.hero h1 span {
-  font-size: clamp(1.2rem, 2vw + 0.5rem, 2.1rem);
-  margin-top: 0.5rem;
-  display: block;
-}
+.hero h1 span { font-size: inherit; font-weight: inherit; margin-top: 0; display: inline; }
 
 .hero p {
   font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.4rem);
@@ -2083,9 +2105,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Prodejna s pivem, vínem, alkoholem a pochutinami<br>600druhů piva ze 150ti pivovarů
-            <span style="display: block; margin-top: 10px;">Beer to go - čepujeme pivo do lahví na počkání<br>Půjčovna výčepního zařízení</span></h1>
-            <p>Navštivte také hospodu Max Beer Bar nebo koupaliště Na Sladovce</p>
+            <h1>Prodejna s pivem, vínem, alkoholem a pochutinami<br>
+            600druhů piva ze 150ti pivovarů<br>
+            Beer to go - čepujeme pivo do lahví na počkání<br>
+            Půjčovna výčepního zařízení</h1>
             <div class="hero-buttons">
                 <a href="#Prave-na-cepu" class="btn primary">Právě na čepu</a>
                 <a href="#Kontakty" class="btn secondary">Jak se k nám dostanete</a>
@@ -2107,9 +2130,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             <div class="about-text">
                 <h2>O nás</h2>
                 <p>
-<strong>MAX PIVOTÉKA</strong> v Benešově nabízí jeden z nejširších výběrů piv v regionu – více než <strong>600 druhů</strong> spodně i svrchně kvašených speciálů, sezónních edic i limitovaných várek z menších i větších pivovarů.<br>
-K pivu u nás najdete také <strong>české cidery, kvalitní rumy, likéry a vína od malých českých vinařů</strong>, stejně jako oblíbené pochutiny – nakládané sýry, utopence či pravé české brambůrky.<br>
-Nabízíme i <strong>rozvoz zboží</strong>, <strong>zapůjčení výčepního zařízení</strong>, <strong>prodej potravinářských plynů Drinkgas</strong> a <strong>komisní prodej</strong>.<br>
+MAX PIVOTÉKA v Benešově nabízí jeden z nejširších výběrů piv v regionu – více než 600 druhů spodně i svrchně kvašených speciálů, sezónních edic i limitovaných várek z menších i větších pivovarů.<br><br>
+K pivu u nás najdete také české cidery, kvalitní rumy, likéry a vína od malých českých vinařů, stejně jako oblíbené pochutiny – nakládané sýry, utopence či pravé české brambůrky.<br><br>
+Nabízíme i rozvoz zboží, zapůjčení výčepního zařízení, prodej potravinářských plynů Drinkgas a komisní prodej.<br><br>
 Naším cílem je nabízet kvalitní produkty a férové ceny ke každému zákazníkovi.
                 </p>
 
@@ -2203,7 +2226,7 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
                   $title = htmlspecialchars($item['title'] ?? 'Ceník');
                   $pdf = htmlspecialchars($item['pdf'] ?? 'uploads/cenik.pdf');
               ?>
-              <div class="keg-wrapper" onclick="downloadKegPdf(this, '<?= $pdf ?>', '<?= $title ?>')" title="Klikněte pro stažení <?= $title ?>">
+              <div class="keg-wrapper" onclick="downloadKegPdf(this, '<?= $pdf ?>', '<?= $title ?>')" title="Klikněte pro otevření ceníku <?= $title ?>">
                   <img src="images/keg_cenik.png" alt="Pivní sud Ceník" class="keg-image">
                   <div class="keg-text-overlay">
                       <span class="keg-title"><?= $title ?></span>
@@ -2370,12 +2393,16 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                     </svg>
                 </div>
-                <div>
-                    <a href="tel:+420731179453">+420 731 179 453</a> <span style="font-size: 0.9rem; color: #ccc;">– Vedoucí prodejny (Marek Skořepa)</span>
-                    <br>
-                    <a href="tel:+420317721341">+420 317 721 341</a> <span style="font-size: 0.9rem; color: #ccc;">– Prodejna</span>
-                    <br>
-                    <a href="tel:+420603239703">+420 603 239 703</a> <span style="font-size: 0.9rem; color: #ccc;">– Majitel (Petr Pokorný)</span>
+                <div style="white-space: nowrap;">
+                    <div style="margin-bottom: 0.35rem; white-space: nowrap;">
+                        <a href="tel:+420731179453" style="white-space: nowrap;">+420 731 179 453</a> <span style="font-size: 0.95rem; color: #ccc; white-space: nowrap;">– Marek Skořepa (Vedoucí prodejny)</span>
+                    </div>
+                    <div style="margin-bottom: 0.35rem; white-space: nowrap;">
+                        <a href="tel:+420317721341" style="white-space: nowrap;">+420 317 721 341</a> <span style="font-size: 0.95rem; color: #ccc; white-space: nowrap;">– Prodejna</span>
+                    </div>
+                    <div style="white-space: nowrap;">
+                        <a href="tel:+420603239703" style="white-space: nowrap;">+420 603 239 703</a> <span style="font-size: 0.95rem; color: #ccc; white-space: nowrap;">– Petr Pokorný (Majitel)</span>
+                    </div>
                 </div>
             </div>
             <div class="mail">
@@ -2437,7 +2464,31 @@ Naším cílem je nabízet kvalitní produkty a férové ceny ke každému záka
     <section id="Galerie" class="gallery-section">
         <h2>Galerie</h2>
         <div class="gallery-container">
-            <!-- Gallery images will be loaded dynamically from the file system -->
+            <?php
+            $galleryDir = __DIR__ . '/images/gallery/';
+            $gImages = [];
+            if (is_dir($galleryDir)) {
+                $files = array_diff(scandir($galleryDir), ['.', '..']);
+                foreach ($files as $f) {
+                    $ext = strtolower(pathinfo($f, PATHINFO_EXTENSION));
+                    if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                        $gImages[] = $f;
+                    }
+                }
+                sort($gImages);
+            }
+            if (!empty($gImages)):
+                foreach ($gImages as $index => $img):
+            ?>
+            <div class="gallery-item">
+                <img src="images/gallery/<?= htmlspecialchars($img) ?>" alt="Galerie <?= $index + 1 ?>" loading="lazy">
+            </div>
+            <?php 
+                endforeach;
+            else:
+            ?>
+            <p class="gallery-empty-notice">V galerii zatím nejsou žádné fotky.</p>
+            <?php endif; ?>
         </div>
     </section>
 

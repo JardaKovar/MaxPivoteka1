@@ -262,14 +262,7 @@ async function loadCenik() {
         console.log('Error loading cenik:', error);
     }
 }
-    images.forEach(img => {
-        const imgElement = document.createElement('img');
-        imgElement.src = `images/cenik/${img}`;
-        imgElement.alt = `Ceník - ${img}`;
-        imgElement.className = 'pricing-list-image';
-        pricingContainer.appendChild(imgElement);
-    });
-}
+    
 
 function updateTapListTable(tapData) {
     const tbody = document.querySelector('#Prave-na-cepu .tap-list tbody');

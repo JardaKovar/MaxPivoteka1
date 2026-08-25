@@ -445,19 +445,28 @@ $loginTimeFormatted = date('H:i', $loginTime);
                     $galleryDir = __DIR__ . '/images/gallery/';
                     $galleryImages = [];
                     if (is_dir($galleryDir)) {
-                        $galleryImages = array_diff(scandir($galleryDir), ['.', '..']);
+                        $files = array_diff(scandir($galleryDir), ['.', '..']);
+                        foreach ($files as $f) {
+                            $ext = strtolower(pathinfo($f, PATHINFO_EXTENSION));
+                            if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                                $galleryImages[] = $f;
+                            }
+                        }
+                        sort($galleryImages);
                     }
-                    foreach ($galleryImages as $img):
-                        if (in_array(strtolower(pathinfo($img, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])):
+                    if (!empty($galleryImages)):
+                        foreach ($galleryImages as $img):
                     ?>
                     <label class="image-select-card">
                         <input type="checkbox" name="delete_gallery_images[]" value="<?= htmlspecialchars($img) ?>">
                         <img src="images/gallery/<?= htmlspecialchars($img) ?>" alt="Galerie Obrázek">
                     </label>
                     <?php 
-                        endif;
-                    endforeach; 
+                        endforeach;
+                    else:
                     ?>
+                    <p style="color: #94a3b8; font-size: 0.95rem; grid-column: 1 / -1; padding: 1rem 0;">V galerii zatím nejsou žádné nahrané fotky. Nahrajte je výše.</p>
+                    <?php endif; ?>
                 </div>
                 <?php if (!empty($galleryImages)): ?>
                 <button type="submit" class="btn-danger" onclick="return confirm('Opravdu chcete smazat vybrané obrázky?')"><i class="fa-solid fa-trash"></i> Smazat vybrané</button>
@@ -894,14 +903,6 @@ $loginTimeFormatted = date('H:i', $loginTime);
         });
 
         // Form submission handling
-        document.querySelectorAll('form').forEach(form => {
-            
-        });
-
-        // Clear input fields on focus to prevent missing first character issue
-        
-        });
-
         // Diary functionality
         function addDiaryEntry() {
             const form = document.querySelector('.diary-entry-form');

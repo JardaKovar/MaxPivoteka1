@@ -1,0 +1,25 @@
+# Set index.php as the primary default file for maxpivoteka.cz
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Force HTTPS redirect if not already on https
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Redirect any direct request for index.html to index.php
+    RewriteRule ^index\.html$ /index.php [R=301,L]
+</IfModule>
+
+# Security: Deny direct access to .env, .sql, .log files
+<FilesMatch "^\.env|\.sql$|\.log$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
